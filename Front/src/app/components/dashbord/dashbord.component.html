@@ -1,0 +1,51 @@
+
+<div class="rules">
+  <div class="total-rules">
+    <div class="icon-bef-title">
+      <div >
+      <span class="material-symbols-outlined">
+                        Assignment
+                        </span>
+      </div>
+      <div class="icon-title">
+        <h3>Total rules</h3>
+        <h1 class="assign-count">{{totalRules}}</h1>
+      </div>
+    </div>
+    <div class="middle">
+      <app-donut></app-donut>
+    </div>
+    <small class="text-muted"></small>
+  </div>
+  <div class="expenses">
+    <div class="icon-bef-title">
+      <span class="material-symbols-outlined">
+                        table
+                        </span>
+      <div class="icon-title">
+        <h3>Total tables</h3>
+        <h1 class="assign-count">{{tablenumberupdates}}</h1>
+      </div>
+    </div>
+    <div class="middle">
+      <app-stacked-columns [heatMapdata]="heatMapdata"></app-stacked-columns>
+    </div>
+    <small class="text-muted"> </small>
+  </div>
+  <div class="income">
+    <div class="icon-bef-title">
+       <span class="material-symbols-outlined">
+                        update
+                        </span>
+      <div class="icon-title">
+        <h3>Total usages</h3>
+        <h1 class="assign-count">{{totalUsages}}</h1>
+      </div>
+    </div>
+    <div class="middle">
+      <app-heatmap></app-heatmap>
+    </div>
+    <small class="text-muted"></small>
+  </div>
+  <p-toast></p-toast>
+</div>

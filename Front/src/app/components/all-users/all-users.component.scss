@@ -1,0 +1,70 @@
+.all-users {
+  background: var(--color-white);
+  width: 100%;
+  border-radius: var(--card-border-radius);
+  text-align: center;
+  padding: 0.6rem;
+  box-shadow: var(--box-shadow);
+  transition: all 300ms ease;
+
+}
+
+
+
+.all-users:hover {
+  box-shadow: none;
+}
+
+.all-users * {
+  background-color: var(--color-white);
+}
+
+.all-users h5,select,th,.item-id {
+  color: var(--color-dark);
+}
+
+
+.all-users h2 {
+  margin-bottom: 0.8rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 0 solid transparent;
+  border-radius: 0;
+}
+.btn-circle.btn-lg, .btn-group-lg>.btn-circle.btn {
+  width: 45px;
+  height: 45px;
+  padding: 12px 12px;
+  font-size: 18px;
+  line-height: 23px;
+}
+.text-muted {
+  color: #8898aa!important;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+  cursor: pointer;
+  margin: 0 0.2rem;
+}
+.btn-circle {
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+}
+.user-table tbody tr .category-select {
+  max-width: 150px;
+  text-align: center;
+  border-radius: 20px;
+}
+.user-avatar img {
+  max-width: 100%; /* Ensure image does not exceed container width */
+  height: auto; /* Maintain aspect ratio */
+}

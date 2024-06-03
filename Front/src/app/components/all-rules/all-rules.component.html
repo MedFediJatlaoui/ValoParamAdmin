@@ -1,0 +1,47 @@
+<div class="recent-rules">
+  <table>
+    <thead>
+    <tr>
+      <th>Rule name</th>
+      <th>Rule description</th>
+      <th>Date created</th>
+      <th>Usage</th>
+      <th style="width: 20%; padding-left: 4rem;">
+          <span class="">
+            <input type="text" style="width: 120px;margin-left: -1rem;" pInputText [(ngModel)]="searchQuery" (input)="search()" />
+            <i class="pi pi-search search-btn" style="color:gray ;"></i>
+          </span>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let rule of rules" [ngStyle]="{'background': rule.status=='Deleted' ? 'rgba(250, 229, 229, 0.89)' : 'white'}">
+      <td>{{ rule.name }}</td>
+      <td>{{ rule.description }}</td>
+      <td>{{ rule.createDate | date: 'dd/MM/yyyy' }}</td>
+      <td>
+        <span class="p-badge p-badge-info ng-star-inserted" *ngIf="rule.status=='Scheduled update'"> {{rule.status }}</span>
+        <span class="p-badge p-badge-danger ng-star-inserted" *ngIf="rule.status=='Deleted'"> {{rule.status }}</span>
+        <span class="p-badge p-badge-warning ng-star-inserted" *ngIf="rule.status=='Scheduled delete'"> {{rule.status }}</span>
+        <button pButton type="button" icon="pi pi-calculator" style="margin-right:10px" class="p-button-secondary" (click)="useRule(rule)" *ngIf="rule.status=='Enabled'"></button>
+      </td>
+
+      <td class="primary details" *ngIf="rule.status=='Enabled'" >
+
+        <button pButton type="button" icon="pi pi-pencil" style="margin-right:10px" class="p-button-warning" *ngIf="getuserRole()!=='CONSULTANT'"  (click)="updateRule(rule)"></button>
+        <button pButton type="button" icon="pi pi-trash" style="margin-right:10px ; color: white;" class="p-button-danger" *ngIf="getuserRole()!=='CONSULTANT'" (click)="disableRule(rule)"></button>
+        <button pButton type="button" icon="pi pi-history" class="p-button-info" (click)="openRuleHistory(rule)"></button>
+      </td>
+      <td class="primary details" *ngIf="!(rule.status=='Enabled')">
+        <div class="hist-btn">
+          <button pButton type="button" icon="pi pi-arrow-up-right" style="margin-right:10px" class="p-button-success" (click)="useRule(rule)"></button>
+          <button pButton type="button" icon="pi pi-history" style="margin-right:35px" class="p-button-info" (click)="openRuleHistory(rule)"></button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="200 " [rowsPerPageOptions]="[10, 20, 30, 40, 50, 60, 70,80,90,100]"></p-paginator>
+</div>
+
+<p-toast></p-toast>

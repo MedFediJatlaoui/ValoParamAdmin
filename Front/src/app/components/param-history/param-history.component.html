@@ -1,0 +1,41 @@
+<table class="table">
+    <thead>
+    <tr>
+      <th>version</th>
+      <th>action</th>
+      <th>Row Id</th>
+      <th>Created by</th>
+      <th>Date created</th>
+      <th>Modified by</th>
+      <th>Date modified</th>
+      <th>Modification</th>
+
+    </tr>
+    </thead>
+  <tbody *ngIf="!(paramAuditHistory && paramAuditHistory.length)">
+  <tr>
+    <td [attr.colspan]="8">
+      Empty Configuration Table
+    </td>
+  </tr>
+  </tbody>
+    <tbody>
+
+    <tr *ngFor="let param of paramAuditHistory" >
+      <td>{{ param.version}}</td>
+      <td (click)="logClass(param.action)">
+    <span [ngClass]="getClassForAction(param.action)">
+        {{ param.action }}
+    </span>
+      </td>
+      <td>{{param.rowId}}</td>
+
+      <td>{{ param.createdBy }}</td>
+      <td>{{ param.createdAt | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ param.lastModifiedBy }}</td>
+      <td>{{ param.lastModifiedAt | date: 'dd/MM/yyyy'}}</td>
+      <td>{{ param.newRow}}</td>
+    </tr>
+    </tbody>
+  </table>
+

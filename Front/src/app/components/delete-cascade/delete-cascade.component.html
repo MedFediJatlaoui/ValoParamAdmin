@@ -1,0 +1,27 @@
+<div class="modal-confirm">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="icon-box mb-3 ">
+        <i class="material-icons">&#xE5CD;</i>
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="spinner-overlay custom-spinner p-progress-spinner-circle">
+      <p-progressSpinner
+        styleClass="custom-spinner w-4rem h-4rem"
+        strokeWidth="8"
+        animationDuration=".5s"
+      ></p-progressSpinner>
+    </div>
+    <div class="modal-body">
+      <p class="mb-3">Do you really want to permanently delete this parameter from {{table.name}}?
+        This parameter is referenced by</p>
+        <div class="mb-3" *ngFor="let ref of references "> {{ref.occurences}} of {{ref.tableName}}</div>
+       <p class="mb-3"> This process cannot be undone, and all its references in related tables will also be deleted.</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-info" (click)="closeDialog()" >Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="deletecascadeRecord(table.name,primaryKeyValue)" >Delete</button>
+    </div>
+  </div>
+</div>
+

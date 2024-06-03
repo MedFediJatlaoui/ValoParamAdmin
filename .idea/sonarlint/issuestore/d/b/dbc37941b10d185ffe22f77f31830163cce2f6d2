@@ -1,0 +1,6 @@
+
+H
+java:S11992"-Extract this nested code block into a method.(ÒÌâ–øÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ú•áŒúÿÿÿÿ
+V
+java:S1128";Remove this unused import 'lombok.RequiredArgsConstructor'.(ÑØŽúøÿÿÿÿ

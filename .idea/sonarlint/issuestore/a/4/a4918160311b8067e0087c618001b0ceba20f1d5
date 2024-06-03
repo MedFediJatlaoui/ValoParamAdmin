@@ -1,0 +1,6 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Ò“äï
+`
+java:S1128">Remove this unused import 'com.talan.AdminModule.entity.Role'.(æ‰«øıÿÿÿÿ8ãÁÄâî1
+[
+java:S1128">Remove this unused import 'com.talan.AdminModule.entity.User'.(¸ãâš8ãÁÄâî1

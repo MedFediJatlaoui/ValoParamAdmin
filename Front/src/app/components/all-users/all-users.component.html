@@ -1,0 +1,63 @@
+
+<div class="all-users" >
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="table-responsive">
+            <table class="table no-wrap user-table mb-0">
+              <thead>
+              <tr>
+                <th scope="col" class="border-0 text-uppercase font-medium pl-4"></th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Occupation</th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Email</th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Added</th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Role</th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Manage</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let user of userList; let i = index">
+                <td class="pl-4 item-id">{{ i + 1 }}</td>
+                <td>
+                  <h5 class="font-light mb-0">{{ user.firstname+" "+user.lastname }}</h5>
+                  <span class="text-muted">{{user.company}}</span>
+                </td>
+                <td>
+                  <span class="text-muted">Engineer</span><br>
+                </td>
+                <td>
+                  <span class="text-muted">{{ user.email }}</span><br>
+                  <span class="text-muted">+216 - {{ user.phone }}</span>
+                </td>
+                <td>
+                <p-avatar size="large" shape="circle" class="user-avatar">
+                  <img src="{{user.profileImagePath}}" alt="Avatar Image">
+                </p-avatar>
+                </td>
+
+
+                <td>
+                  <span class="text-muted">12/10</span><br>
+                  <span class="text-muted">09:23</span>
+                </td>
+                <td>
+                  <p class="form-control category-select">
+                    {{user.role}}
+                  </p>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-warning btn-circle btn-lg btn-circle ml-2" (click)="deleteUser(user)"><i class="fa fa-trash"></i> </button>
+                  <button type="button" class="btn btn-outline-warning btn-circle btn-lg btn-circle ml-2" (click)="updateUser(user)"><i class="fa fa-edit"></i> </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>

@@ -1,0 +1,79 @@
+
+<div class="container add-rule pb-3">
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="ruleForm" >
+        <div class="row gx-5">
+          <div class="col-xxl-8 mb-xxl-0">
+            <div class="bg-secondary-soft px-4 mt-3 rounded">
+              <div class="row g-3 comp-dis">
+                <div class="col-md-6 rule-name">
+                  <label class="form-label">Rule name *</label>
+                  <input type="text" class="form-control" formControlName="name" placeholder="" [readOnly]="true">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Rule category *</label>
+                  <div class="flex-disp">
+                    <p-dropdown [options]="categories" [(ngModel)]="selectedCategory" [autoDisplayFirst]="false" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" formControlName="category" [readonly]="true"><ng-template pTemplate="selectedItem"  let-selectedOption>
+                      <div class="flex align-items-center gap-2">
+                        <div>{{ selectedOption.name }}</div>
+                      </div>
+                    </ng-template>
+                      <ng-template let-category pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                          <div>{{ category.name }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-6 desc-dis">
+                  <label class="form-label">Rule description *</label>
+                  <textarea class="form-control" formControlName="description" placeholder="" [readOnly]="true"></textarea>
+                </div>
+              </div>
+              <div class="col-md-6 sel-config" formArrayName="attributeDtos">
+                <div *ngFor="let attribute of getAttributeControls(); let i = index" class="attr-config">
+                  <div [formGroupName]="i" class="info-control mt-4">
+                    <div class="attr-cont">
+                      <div class="col-md-6">
+                        <label class="form-label">Criteria name *</label>
+                        <div class="flex-disp">
+                          <p-dropdown [options]="attributes" [(ngModel)]="selectedAttributes[i]" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" formControlName="name" [readonly]="true">
+                            <ng-template pTemplate="selectedItem" let-selectedOption>
+                              <div class="flex align-items-center gap-2">
+                                <div>{{ selectedOption.name }}</div>
+                              </div>
+                            </ng-template>
+                            <ng-template let-attr pTemplate="item">
+                              <div class="flex align-items-center gap-2">
+                                <div>{{ attr.name }}</div>
+                              </div>
+                            </ng-template>
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="form-label" >Criteria percentage *</label>
+                      <input type="number" class="form-control inp-control" formControlName="percentage" placeholder="" min="0" max="100" [readOnly]="true">
+                    </div>
+                    <div *ngIf="rule.status=='Enabled'">
+                      <label class="form-label" >Criteria value *</label>
+                      <input type="number" class="form-control inp-control" formControlName="value" placeholder="" min="0" max="10"  >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="gap-3 d-md-flex justify-content-md-end text-center" *ngIf="rule.status=='Enabled'">
+          <button (click)="onSubmit()" class="btn save-conf mt-3">Calculate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

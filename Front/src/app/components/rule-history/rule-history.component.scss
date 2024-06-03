@@ -1,0 +1,74 @@
+
+.rule-history {
+  min-height: 80vh !important;
+  background: white;
+  border-radius: var(--card-border-radius);
+
+}
+
+
+.assign-count {
+  text-align: center;
+}
+
+.rule-history table {
+  background: var(--color-white);
+  width: 100%;
+  border-radius: var(--card-border-radius) ;
+  padding: var(--card-padding);
+  text-align: center;
+  transition: all 300ms ease;
+}
+
+.rule-history table:hover {
+  box-shadow: none;
+}
+
+th {
+  padding: 1.3rem 0 1rem 0;
+}
+
+
+tbody td {
+  height: 2.8rem;
+  border-bottom: 1px solid var(--color-light);
+  color: var(--color-dark-variant);
+
+}
+
+
+.rule-history a {
+  text-align: center;
+  display: block;
+  margin: 1rem auto;
+  color: var(--color-info-dark);
+}
+
+.details:hover {
+  cursor: pointer;
+}
+
+.status-enabled {
+  color: #2A482EFF;
+}
+
+.status-disabled {
+  color: #772828FF;
+}
+
+mat-paginator {
+  background-color:var(--color-background) ;
+  color: var(--color-dark);
+}
+
+.details {
+  padding: 0.2rem 0;
+}
+
+.hist-button {
+  border-radius :10px;
+  padding: 0.35rem;
+  background: rgba(250, 245, 245, 0.89) !important;
+}
+
+

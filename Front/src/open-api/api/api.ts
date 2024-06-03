@@ -1,0 +1,11 @@
+export * from './attribute.service';
+import { AttributeService } from './attribute.service';
+export * from './authentication.service';
+import { AuthenticationService } from './authentication.service';
+export * from './category.service';
+import { CategoryService } from './category.service';
+export * from './rule.service';
+import { RuleService } from './rule.service';
+export * from './userController.service';
+import { UserControllerService } from './userController.service';
+export const APIS = [AttributeService, AuthenticationService, CategoryService, RuleService, UserControllerService];

@@ -1,0 +1,34 @@
+.error-box {
+  max-width: 480px;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.error-box h1 {
+  color: #FF9F43;
+  font-size: 10em;
+}
+.error-box h3 {
+  font-size: 26px;
+}
+.error-box .btn {
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 200px;
+  padding: 10px 20px;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #FF9F43 !important;
+  border-color: #FF9F43 !important;
+}
+.error-box p {
+  margin-bottom: 25px;
+  font-size: 20px;
+}

@@ -1,0 +1,51 @@
+<div class="layout-topbar" >
+
+  <button
+    #menubutton
+    class="p-link layout-menu-button layout-topbar-button"
+    (click)="layoutService.onMenuToggle()"
+  >
+    <i class="pi pi-bars"></i>
+  </button>
+
+  <button
+    #topbarmenubutton
+    class="p-link layout-topbar-menu-button layout-topbar-button"
+    (click)="layoutService.showProfileSidebar()"
+  >
+    <i class="pi pi-ellipsis-v"></i>
+  </button>
+
+  <div
+    #topbarmenu
+    class="layout-topbar-menu"
+    [ngClass]="{
+      'layout-topbar-menu-mobile-active':
+        layoutService.state.profileSidebarVisible
+    }"
+  >
+
+    <button class="p-link layout-topbar-button" (click)="toggleDropdown($event)">
+      <i class="pi pi-user"></i>
+    </button>
+    <div class="dropdown-menu" [ngClass]="{'show': dropdownVisible}">
+      <div class="user-info">
+
+        <div class="user-details">
+          <div class="user-name">{{username}}</div>
+          <div class="user-role">{{role}}</div>
+        </div>
+        <div class="avatar-container">
+        <p-avatar  size="large"  shape="circle" class="user-avatar">
+          <img src="{{profileImagePath}}">
+        </p-avatar>
+      </div>
+      </div>
+      <div class="separator"></div>
+      <div class="logout" (click)="logout()">
+        <i class="pi pi-sign-out"></i> Logout
+      </div>
+    </div>
+
+  </div>
+</div>

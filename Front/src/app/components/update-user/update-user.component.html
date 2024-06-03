@@ -1,0 +1,76 @@
+<div class="container update-user pb-3">
+  <div class="row">
+    <div class="col-12">
+      <form class="file-upload" (ngSubmit)="updateUser()" [formGroup]="updateUserForm" enctype="multipart/form-data">
+        <div class="row gx-5">
+          <!-- Contact detail -->
+          <div class="col-xxl-8 mb-xxl-0">
+            <div class="bg-secondary-soft px-4 py-5 rounded">
+              <div class="row g-3">
+                <!-- First Name -->
+                <div class="col-md-6">
+                  <label class="form-label">First Name *</label>
+                  <input type="text" class="form-control" placeholder="" formControlName="firstname">
+                </div>
+                <!-- Last name -->
+                <div class="col-md-6">
+                  <label class="form-label">Last Name *</label>
+                  <input type="text" class="form-control" placeholder="" formControlName="lastname">
+                </div>
+                <!-- Phone number -->
+                <div class="col-md-6">
+                  <label class="form-label">Phone number *</label>
+                  <input type="text" class="form-control" placeholder="" formControlName="phone">
+                </div>
+                <!-- Company -->
+                <div class="col-md-6">
+                  <label class="form-label">Company *</label>
+                  <select class="form-control category-select" formControlName="company">
+                    <option *ngFor="let company of companies" [value]="company">{{company}}</option>
+                  </select>
+                </div>
+                <!-- Email -->
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Email *</label>
+                  <input type="email" class="form-control" id="inputEmail4" formControlName="email">
+                </div>
+                <!-- Role -->
+                <div class="col-md-6">
+                  <label class="form-label">Role *</label>
+                  <select class="form-control category-select" formControlName="role">
+                    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                  </select>
+                </div>
+              </div> <!-- Row END -->
+            </div>
+          </div>
+          <!-- Upload profile -->
+          <div class="col-xxl-4">
+            <div class="bg-secondary-soft px-4 py-5 rounded">
+              <div class="row g-3">
+                <div class="text-center">
+                  <!-- Image upload -->
+                  <div class="square position-relative display-2 mb-3 photo-upload">
+                    <i class="fas fa-fw fa-user position-absolute top-50 start-50 translate-middle text-secondary"></i>
+                  </div>
+                  <!-- Button -->
+                  <input type="file" id="customFile" name="file" hidden (change)="onFileChange($event)">
+                  <div class="upload-remove">
+                    <label class="btn btn-success-soft btn-block" for="customFile">Upload</label>
+                    <button type="button" class="btn btn-danger-soft">Remove</button>
+                  </div>
+                  <!-- Content -->
+                  <p class="text-muted mt-3 mb-0"><span class="me-1">Note:</span>Minimum size 300px x 300px</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- Row END -->
+        <!-- button -->
+        <div class="gap-3 d-md-flex justify-content-md-end text-center">
+          <button type="submit" class="btn btn-lg save-btn">Save profile</button>
+        </div>
+      </form> <!-- Form END -->
+    </div>
+  </div>
+</div>

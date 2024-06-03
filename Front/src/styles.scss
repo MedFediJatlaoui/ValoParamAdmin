@@ -1,0 +1,94 @@
+/* You can add global styles to this file, and also import other style files */
+
+$gutter: 1rem; //for primeflex grid system
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+
+:root {
+  --color-primary: #ffc107;
+  --color-danger: #ff7782;
+  --color-success: #41f1b6;
+  --color-warning: #ffbb55;
+  --color-white: #fff;
+  --color-info-dark: #7d8da1;
+  --color-info-light: #dceleb;
+  --color-dark: #363949;
+  --color-light: rgba(132, 139, 200, 0.18);
+  --color-primary-variant: #111e88;
+  --color-dark-variant: #677483;
+  --color-background: #f6f6f9;
+  --card-border-radius: 2rem;
+  --border-radius-1: 0.4rem;
+  --border-radius-2: 0.8rem;
+  --border-radius-3: 1.2rem;
+  --card-padding: 1.8rem;
+  --padding-1: 1.2rem;
+  --box-shadow: 0 2rem 3rem var(--color-light);
+  --theme-color: #ffc107;
+}
+
+.dark-theme-variables {
+  --color-background:#181a1e ;
+  --color-white:#202528 ;
+  --color-dark:#edeffd ;
+  --color-dark-variant:#a3bdcc ;
+  --color-light:rgba(0,0,0,0.4) ;
+  --box-shadow: 0 2rem 3rem var(--color-light) ;
+}
+
+body {
+  font-family: 'Poppins', sans-serif !Important;
+
+}
+
+h1 {
+  font-weight: 800 !important;
+  font-size: 1.8rem !important;
+  color: var(--color-dark) !important;
+}
+
+p-dialog-header {
+  background: white !important;
+}
+
+.p-dropdown {
+  width: 10rem !important;
+  height: 3rem !important;
+}
+
+.p-dropdown-label {
+  padding: 0.5rem !important;
+}
+
+.p-paginator {
+  align-items: center !important;
+  border-radius :0 !important ;
+  background: var(--color-info-light)  !important;
+}
+
+.apexcharts-datalabels {
+  display: none !important;
+}
+
+
+app-stacked-columns .apexcharts-legend-series {
+  display: none !important;
+}
+
+.swal2-title {
+  font-size: 3rem !important;
+  padding: 0rem !important;
+
+}
+.swal2-html-container {
+  font-size: 2.5rem !important;
+}
+
+.layout-config-button  {
+  display: none !important;
+}
