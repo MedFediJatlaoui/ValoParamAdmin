@@ -1,11 +1,3 @@
-# Build stage
-FROM maven:3.8.7-openjdk-18 AS build
-WORKDIR /build
-COPY pom.xml .
-RUN mvn dependency:go-offline
-COPY src ./src
-RUN mvn clean package -DskipTests
-
 # Runtime stage
 FROM amazoncorretto:17
 ARG PROFILE=dev
@@ -21,7 +13,6 @@ EXPOSE 8090
 
 ENV DB_URL=jdbc:postgresql://localhost:5432/pagila
 ENV MAILDEV_URL=localhost
-
 ENV ACTIVE_PROFILE=${PROFILE}
 ENV JAR_VERSION=${APP_VERSION}
 

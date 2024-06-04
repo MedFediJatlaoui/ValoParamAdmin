@@ -1,156 +1,47 @@
 pipeline {
-    agent any
-
-    tools {
-        jdk 'jdk17'
-        maven 'maven3'
-    }
-
-    environment {
-        SCANNER_HOME = tool 'sonar-scanner'
-    }
-
-    stages {
-        stage('Git Checkout') {
-            steps {
-                git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/WaelArfaaoui/AdminModule.git'
-            }
+     agent any
+     stages {
+        stage('maven clean compile') {
+             steps {
+                 sh """mvn clean compile"""
+             }
         }
 
-        stage('Compile') {
-            steps {
-                dir('Backend') {
-                    sh "mvn compile"
+         stage('Mockito test'){
+                     steps{
+                        sh """mvn test """
+                     }
                 }
-            }
+        stage('maventest Sonarqube'){
+             steps{
+                sh """mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar """
+             }
         }
-
-        stage('Test') {
-            steps {
-                dir('Backend') {
-                    sh "mvn test"
-                }
-            }
+        stage('maven Package'){
+             steps{
+                 sh """mvn package -DskipTests=true """
+             }
         }
-
-        stage('File System Scan') {
-            steps {
-                dir('Backend') {
-                    sh "trivy fs --format table -o trivy-fs-report.html ."
-                }
-            }
+        stage('Install .m2 '){
+             steps{
+                 sh """mvn install  """
+             }
         }
-
-        stage('SonarQube Analysis') {
-            steps {
-                dir('Backend') {
-                    withSonarQubeEnv('sonar') {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=AdminModuleAPI -Dsonar.projectKey=AdminModuleAPI \
-                                -Dsonar.java.binaries=. '''
-                    }
-                }
-            }
+        stage('maven Deploy Nexus'){
+             steps{
+                 sh """mvn deploy  """
+             }
         }
-
-        stage('Quality Gate') {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
-                }
-            }
+        stage('Docker image'){
+             steps{
+                 sh ''' docker login -u fediijat -p kopp92i11
+                  docker build -t fediijat/valoparamadmin --build-arg JAR_URL=http://192.168.33.10:8081/repository/maven-releases/tn/esprit/spring/5SAE4-G2-gestion-station-ski/1.0/5SAE4-G2-gestion-station-ski-1.0.jar . '''
+             }
         }
-
-        stage('Build') {
-            steps {
-                dir('Backend') {
-                    sh "mvn package"
-                }
-            }
+        stage('Docker Push'){
+             steps{
+                 sh """ docker push  fediijat/valoparamadmin """
+             }
         }
-
-
-        stage('Build & Tag Docker Image') {
-            steps {
-                dir('Backend') {
-                    script {
-                        withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                            sh "docker build -t fediijat/admin-module-api:1.0.1 ."
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Docker Image Scan') {
-            steps {
-                dir('Backend') {
-                    sh "trivy image --format table -o trivy-image-report.html arfaoui01/admin-module-api:1.0.1"
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                dir('Backend') {
-                    script {
-                        withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                            sh "docker push arfaoui01/admin-module-api:1.0.1"
-                        }
-                    }
-                }
-            }
-        }
-
-        // stage('Deploy To Kubernetes') {
-        //     steps {
-        //         withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.30.121:6443') {
-        //             sh "kubectl apply -f k8s/Backend-deployment-service.yaml"
-        //         }
-        //     }
-        // }
-
-        // stage('Verify the Deployment') {
-        //     steps {
-        //         withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.30.121:6443') {
-        //             sh "kubectl get pods -n webapps"
-        //             sh "kubectl get svc -n webapps"
-        //         }
-        //     }
-        // }
-    }
-
-    post {
-        always {
-            script {
-                def jobName = env.JOB_NAME
-                def buildNumber = env.BUILD_NUMBER
-                def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
-                def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
-
-                def body = """
-                    <html>
-                    <body>
-                    <div style="border: 4px solid ${bannerColor}; padding: 10px;">
-                    <h2>${jobName} - Build ${buildNumber}</h2>
-                    <div style="background-color: ${bannerColor}; padding: 10px;">
-                    <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
-                    </div>
-                    <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
-                    </div>
-                    </body>
-                    </html>
-                """
-
-                emailext (
-                    subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
-                    body: body,
-                    to: 'jamelgnichi@gmail.com',
-                    from: 'jenkins@example.com',
-                    replyTo: 'jenkins@example.com',
-                    mimeType: 'text/html',
-                    attachmentsPattern: 'Backend/trivy-image-report.html'
-                )
-            }
-        }
-    }
+     }
 }
