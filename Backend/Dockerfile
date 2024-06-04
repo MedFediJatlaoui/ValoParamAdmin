@@ -1,19 +1,5 @@
-# Runtime stage
 FROM amazoncorretto:17
-ARG PROFILE=dev
-ARG APP_VERSION=1.0.1
-
-WORKDIR /app
-COPY --from=build /build/target/Admin-module-*.jar /app/
-
-# Extract the JAR version
-RUN APP_VERSION=$(ls /app | grep *.jar | awk 'NR==2{split($0,a,"-"); print a[3]}' | awk '{sub(/.jar$/,"")}1')\
-    && echo "Building container with BSN v-$version"
-EXPOSE 8090
-
-ENV DB_URL=jdbc:postgresql://localhost:5432/pagila
-ENV MAILDEV_URL=localhost
-ENV ACTIVE_PROFILE=${PROFILE}
-ENV JAR_VERSION=${APP_VERSION}
-
-CMD java -jar -Dspring.profiles.active=${ACTIVE_PROFILE} -Dspring.datasource.url=${DB_URL}  Admin-module-${JAR_VERSION}.jar
+ARG JAR_URL
+EXPOSE 8089
+ADD $JAR_URL ValoParamAdmin-1.0.jar
+CMD ["java", "-jar", "ValoParamAdmin-1.0.jar"]
