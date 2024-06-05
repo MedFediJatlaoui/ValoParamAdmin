@@ -22,7 +22,7 @@ pipeline {
         stage('test') {
             steps {
                 dir('Front') {
-                    sh 'ng test --watch=false --code-coverage'
+                    sh 'npm run test --watch=false --code-coverage'
                 }
             }
         }
