@@ -4,7 +4,7 @@ pipeline {
         stage('install packages') {
             steps {
                 dir('Front') {
-                    sh 'npm install'
+                    sh 'sudo npm install'
                 }
             }
         }
