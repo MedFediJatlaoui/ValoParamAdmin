@@ -53,7 +53,7 @@ pipeline {
             steps {
                 dir('Backend') {
                     sh '''docker login -u fediijat -p kopp92i11
-                         docker build -t fediijat/valoparamadmin --build-arg JAR_URL=http://192.168.33.10:8081/repository/maven-releases/com/talan/ValoParamAdmin/ValoParamAdmin-1.0.1.jar .'''
+                         docker build -t fediijat/valoparamadmin --build-arg JAR_URL=http://192.168.33.10:8081/repository/maven-releases/com/talan/ValoParamAdmin/1.0.1/ValoParamAdmin-1.0.1.jar .'''
                 }
             }
         }
