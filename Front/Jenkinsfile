@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    stages {
+        stage('install packages') {
+            steps {
+                dir('Frontend') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('build') {
+                    steps {
+                        dir('Front') {
+                            sh 'npm run build'
+                        }
+                    }
+                }
+
+        stage('test') {
+            steps {
+                dir('Front') {
+                    sh 'ng test --watch=false --code-coverage'
+                }
+            }
+        }
+          stage('Sonarqube report') {
+                    steps {
+                        dir('Front') {
+                            sh 'npm run sonar'
+                        }
+              }
+         }
+    }
+}
