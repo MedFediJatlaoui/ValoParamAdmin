@@ -1,10 +1,14 @@
 pipeline {
     agent any
+        environment {
+            NPM_CONFIG_PREFIX = "${env.WORKSPACE}/.npm-global"
+            PATH = "${env.WORKSPACE}/.npm-global/bin:$PATH"
+        }
     stages {
         stage('install packages') {
             steps {
                 dir('Front') {
-                    sh 'sudo npm install'
+                    sh 'npm install'
                 }
             }
         }
