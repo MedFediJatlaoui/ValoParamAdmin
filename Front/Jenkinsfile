@@ -1,8 +1,7 @@
 pipeline {
     agent any
-        environment {
-            NPM_CONFIG_PREFIX = "${env.WORKSPACE}/.npm-global"
-            PATH = "${env.WORKSPACE}/.npm-global/bin:$PATH"
+        tools {
+           nodejs 'nodenode'
         }
     stages {
         stage('install packages') {
