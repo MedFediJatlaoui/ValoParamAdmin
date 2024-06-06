@@ -26,6 +26,7 @@ pipeline {
                 }
             }
         }
+
           stage('Sonarqube report') {
                     steps {
                         dir('Front') {
@@ -33,5 +34,52 @@ pipeline {
                         }
               }
          }
+         stage('Deploy to Nexus') {
+                     steps {
+                         script {
+                             // Nexus repository details
+                             def nexusUrl = 'http://192.168.33.10:8081/repository/maven-releases/'
+                             def nexusCredentialsId = 'maven-releases'
+
+                             // Path to package.json
+                             def packageJsonPath = 'Front/package.json'
+
+                             // Read package name and version from package.json
+                             def packageName = sh(script: "jq -r '.name' ${packageJsonPath}", returnStdout: true).trim()
+                             def packageVersion = sh(script: "jq -r '.version' ${packageJsonPath}", returnStdout: true).trim()
+
+                             // Path to npm package to deploy
+                             def npmPackagePath = 'Front/dist/' + packageName + '-' + packageVersion + '.tgz'
+
+                             // Deploy npm package to Nexus
+                             nexusArtifactUploader(
+                                 nexusVersion: 'nexus3',
+                                 protocol: 'http',
+                                 nexusUrl: nexusUrl,
+                                 groupId: 'org.example',
+                                 artifactId: packageName,
+                                 version: packageVersion,
+                                 packaging: 'tgz',
+                                 file: npmPackagePath,
+                                 credentialsId: nexusCredentialsId
+                             )
+                         }
+                     }
+                 }
+                   stage('Docker Build Image') {
+                                     steps {
+                                         dir('Front') {
+                                             sh 'docker build -t fediijat/valoparamadminfront .'
+                                         }
+                               }
+                          }
+                          stage('Docker Build Image') {
+                                                               steps {
+                                                                   dir('Front') {
+                                                                       sh 'docker push fediijat/valoparamadminfront'
+                                                                   }
+                                                         }
+                                                    }
+
     }
 }
