@@ -1,85 +1,77 @@
 pipeline {
     agent any
-        tools {
-           nodejs 'nodenode'
-        }
+    tools {
+        nodejs 'nodenode'
+    }
     stages {
-        stage('install packages') {
+        stage('Install Packages') {
             steps {
                 dir('Front') {
                     sh 'npm install'
                 }
             }
         }
-        stage('build') {
-                    steps {
-                        dir('Front') {
-                            sh 'npm run build'
-                        }
-                    }
+        stage('Build') {
+            steps {
+                dir('Front') {
+                    sh 'npm run build'
                 }
-
-        stage('test') {
+            }
+        }
+        stage('Test') {
             steps {
                 dir('Front') {
                     sh 'npm run test --watch=false --code-coverage'
                 }
             }
         }
-
-          stage('Sonarqube report') {
-                    steps {
-                        dir('Front') {
-                            sh 'npm run sonar'
-                        }
-              }
-         }
-         stage('Deploy to Nexus') {
-                     steps {
-                         script {
-                             // Nexus repository details
-                             def nexusUrl = 'http://192.168.33.10:8081/repository/maven-releases/'
-                             def nexusCredentialsId = 'maven-releases'
-
-                             // Path to package.json
-                             def packageJsonPath = 'Front/package.json'
-
-                             // Read package name and version from package.json
-                             def packageName = sh(script: "jq -r '.name' ${packageJsonPath}", returnStdout: true).trim()
-                             def packageVersion = sh(script: "jq -r '.version' ${packageJsonPath}", returnStdout: true).trim()
-
-                             // Path to npm package to deploy
-                             def npmPackagePath = 'Front/dist/' + packageName + '-' + packageVersion + '.tgz'
-
-                             // Deploy npm package to Nexus
-                             nexusArtifactUploader(
-                                 nexusVersion: 'nexus3',
-                                 protocol: 'http',
-                                 nexusUrl: nexusUrl,
-                                 groupId: 'org.example',
-                                 artifactId: packageName,
-                                 version: packageVersion,
-                                 packaging: 'tgz',
-                                 file: npmPackagePath,
-                                 credentialsId: nexusCredentialsId
-                             )
-                         }
-                     }
-                 }
-                   stage('Docker Build Image') {
-                                     steps {
-                                         dir('Front') {
-                                             sh 'docker build -t fediijat/valoparamadminfront .'
-                                         }
-                               }
-                          }
-                          stage('Docker Push') {
-                                                               steps {
-                                                                   dir('Front') {
-                                                                       sh 'docker push fediijat/valoparamadminfront'
-                                                 }
+        stage('Sonarqube Report') {
+            steps {
+                dir('Front') {
+                    sh 'npm run sonar'
+                }
+            }
         }
+        stage('Package Artifact') {
+            steps {
+                script {
+                    dir('Front') {
+                        sh 'tar -czf dist/valoparamadminfront.tgz -C dist .'
+                    }
+                }
+            }
+        }
+        stage('Deploy to Nexus') {
+            steps {
+                script {
+                    dir('Front') {
+                        def packageJson = readJSON file: 'package.json'
+                        def packageName = packageJson.name
+                        def packageVersion = packageJson.version
+                        def username = 'admin'
+                        def password = 'nexus'
+                        def npmPackagePath = "dist/valoparamadminfront.tgz"
 
+                        sh """
+                        curl -u ${username}:${password} --upload-file ${npmPackagePath} http://192.168.33.10:8081/repository/maven-releases/${packageName}-${packageVersion}.tgz
+                        """
+                    }
+                }
+            }
+        }
+        stage('Docker Build Image') {
+            steps {
+                dir('Front') {
+                    sh 'docker build -t fediijat/valoparamadminfront .'
+                }
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                dir('Front') {
+                    sh 'docker push fediijat/valoparamadminfront'
+                }
+            }
+        }
     }
-}
 }
