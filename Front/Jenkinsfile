@@ -73,13 +73,12 @@ pipeline {
                                          }
                                }
                           }
-                          stage('Docker Build Image') {
+                          stage('Docker Push') {
                                                                steps {
                                                                    dir('Front') {
                                                                        sh 'docker push fediijat/valoparamadminfront'
-                                                                   }
-                                                         }
-                                                    }
+                                                 }
+        }
 
     }
 }
