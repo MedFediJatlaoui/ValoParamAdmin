@@ -50,8 +50,8 @@ pipeline {
             steps {
                 script {
                     dir('Front') {
-                        def packageJson = new groovy.json.JsonSlurper().parseText(file('Front/package.json').text)
-                        def packageName = packageJson.name
+                       def packageJsonContent = readFile(file: 'Front/package.json').trim()
+                        def packageJson = readJSON text: packageJsonContent
                         def packageVersion = packageJson.version
                         def username = 'admin'
                         def password = 'nexus'
