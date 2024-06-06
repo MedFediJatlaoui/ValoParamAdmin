@@ -36,7 +36,6 @@ pipeline {
             steps {
                 script {
                     dir('Front') {
-                        // Create a temporary directory to hold the tarball
                         sh '''
                         mkdir -p /tmp/tarball
                         tar -czf /tmp/tarball/valoparamadminfront.tgz -C dist .
@@ -59,7 +58,7 @@ pipeline {
                         def npmPackagePath = "dist/valoparamadminfront.tgz"
 
                         sh """
-                        curl -u ${username}:${password} --upload-file ${npmPackagePath} http://192.168.33.10:8081/repository/maven-releases/${packageName}-${packageVersion}.tgz
+                        curl -u ${username}:${password} --upload-file ${npmPackagePath} http://192.168.33.10:8081/repository/maven-releases/
                         """
                     }
                 }
