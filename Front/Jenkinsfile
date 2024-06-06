@@ -38,8 +38,8 @@ pipeline {
                     dir('Front') {
                         sh '''
                         mkdir -p /tmp/tarball
-                        tar -czf /tmp/tarball/valoparamadminfront.tgz -C dist .
-                        mv /tmp/tarball/valoparamadminfront.tgz dist/
+                        tar -czf /tmp/tarball/valoparamadminfront-1.0.1.tgz -C dist .
+                        mv /tmp/tarball/valoparamadminfront-1.0.1.tgz dist/
                         rm -rf /tmp/tarball
                         '''
                     }
@@ -50,12 +50,9 @@ pipeline {
             steps {
                 script {
                     dir('Front') {
-                       def packageJsonContent = readFile(file: 'Front/package.json').trim()
-                        def packageJson = readJSON text: packageJsonContent
-                        def packageVersion = packageJson.version
                         def username = 'admin'
                         def password = 'nexus'
-                        def npmPackagePath = "dist/valoparamadminfront.tgz"
+                        def npmPackagePath = "dist/valoparamadminfront-1.0.1.tgz"
 
                         sh """
                         curl -u ${username}:${password} --upload-file ${npmPackagePath} http://192.168.33.10:8081/repository/valoparamadminfront/
