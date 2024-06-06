@@ -36,7 +36,13 @@ pipeline {
             steps {
                 script {
                     dir('Front') {
-                        sh 'tar -czf dist/valoparamadminfront.tgz -C dist .'
+                        // Create a temporary directory to hold the tarball
+                        sh '''
+                        mkdir -p /tmp/tarball
+                        tar -czf /tmp/tarball/valoparamadminfront.tgz -C dist .
+                        mv /tmp/tarball/valoparamadminfront.tgz dist/
+                        rm -rf /tmp/tarball
+                        '''
                     }
                 }
             }
