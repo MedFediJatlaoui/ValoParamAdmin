@@ -4,7 +4,9 @@ pipeline {
         stage('Maven Clean Compile') {
             steps {
                 dir('Backend') {
-                    sh 'mvn clean compile'
+                    sh '''docker login -u fediijat -p kopp92i11
+                    docker start postgresdb
+                    mvn clean compile'''
                 }
             }
         }
@@ -121,8 +123,7 @@ pipeline {
         stage('Docker Image') {
             steps {
                 dir('Backend') {
-                    sh '''docker login -u fediijat -p kopp92i11
-                         docker build -t fediijat/valoparamadminbackend --build-arg JAR_URL=http://192.168.33.10:8081/repository/maven-releases/com/talan/ValoParamAdmin/1.0.1/ValoParamAdmin-1.0.1.jar .'''
+                    sh 'docker build -t fediijat/valoparamadminbackend --build-arg JAR_URL=http://192.168.33.10:8081/repository/maven-releases/com/talan/ValoParamAdmin/1.0.1/ValoParamAdmin-1.0.1.jar .'
                 }
             }
         }
@@ -130,7 +131,10 @@ pipeline {
         stage('Docker Push') {
             steps {
                 dir('Backend') {
-                    sh 'docker push fediijat/valoparamadminbackend'
+                    sh '''
+                    docker stop postgresdb
+                    docker push fediijat/valoparamadminbackend
+                    '''
                 }
             }
         }
