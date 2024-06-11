@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valoparamui
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: valoparamui
+  template:
+    metadata:
+      labels:
+        app: valoparamui
+    spec:
+      containers:
+        - name: valoparamui
+          image: fediijat/valoparamadminfront:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: API_URL
+              value: "http://valoparamapi-service:8090"
+          volumeMounts:
+            - name: frontend-uploads-volume
+              mountPath: /app/uploads
+      volumes:
+        - name: frontend-uploads-volume
+          emptyDir: {}
