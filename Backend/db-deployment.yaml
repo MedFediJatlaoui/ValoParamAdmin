@@ -14,7 +14,7 @@ spec:
         app: db
     spec:
       containers:
-        - name: fediijat/postgresdb1
+        - name: postgresdb1
           image: postgres:latest
           ports:
             - containerPort: 5432
