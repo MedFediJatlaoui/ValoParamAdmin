@@ -7,7 +7,8 @@ spec:
   selector:
     app: valoparamadmin
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 8090
       targetPort: 8090
   type: ClusterIP

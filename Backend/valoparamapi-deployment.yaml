@@ -1,38 +1,19 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1 # Where in the API it resides
+kind: Deployment # The kind of workload we're creating
 metadata:
-  name: valoparamadmin
-  namespace: dev
+  name: valoparamapi
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: valoparamadmin
+      app: valoparamapi
   template:
     metadata:
       labels:
-        app: valoparamadmin
+        app: valoparamapi
     spec:
       containers:
-        - name: valoparamadmin
+        - name: valoparamapi
           image: fediijat/valoparamadminbackend
           ports:
             - containerPort: 8090
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://db-service:5432/pagila"
-            - name: SPRING_DATASOURCE_USERNAME
-              value: "postgres"
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: "admin"
-            - name: SPRING_JPA_DATABASE_PLATFORM
-              value: "org.hibernate.dialect.PostgreSQLDialect"
-            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
-              value: "update"
-            - name: SPRING_JPA_SHOW_SQL
-              value: "false"
-          volumeMounts:
-            - name: uploads-volume
-              mountPath: /app/uploads
-      volumes:
-        - name: uploads-volume
