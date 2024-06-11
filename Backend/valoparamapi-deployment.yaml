@@ -36,4 +36,3 @@ spec:
               mountPath: /app/uploads
       volumes:
         - name: uploads-volume
-          emptyDir: {}
