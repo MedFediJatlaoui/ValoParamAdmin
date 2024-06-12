@@ -46,7 +46,7 @@ pipeline {
         stage('Maven Deploy Nexus') {
             steps {
                 dir('Backend') {
-                    sh 'mvn deploy -DskipTests=true'
+                    sh 'mvn deploy -X -DskipTests=true'
                 }
             }
         }
