@@ -27,14 +27,6 @@ public class DatabaseInitializer {
 
     @Autowired
 
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-
-    private UserRepository userRepository;
-
-    @Autowired
-
     public DatabaseInitializer(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
         this.jdbcTemplate=jdbcTemplate;
@@ -51,22 +43,6 @@ public class DatabaseInitializer {
             }
         }
 
-         allTablesWithColumns =retrieveAllTablesWithColumns();
-        User user = new User() ;
-
-        user.setEmail("jatlaouimedfedi@gmail.com");
-
-        user.setPassword(passwordEncoder.encode("123"));
-
-        user.setFirstname("fedi");
-
-        user.setLastname("jatt");
-
-        user.setRole(Role.ADMIN);
-
-        user.setPhone("111111");
-
-        this.userRepository.save(user);
     }
 
     public TablesWithColumns retrieveAllTablesWithColumns() {
