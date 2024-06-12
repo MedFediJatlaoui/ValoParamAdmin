@@ -17,7 +17,7 @@ spec:
         - name: valoparamui
           image: fediijat/valoparamadminfront:latest
           ports:
-            - containerPort: 80
+            - containerPort: 4200
           env:
             - name: API_URL
               value: "http://valoparamapi-service:8090"
