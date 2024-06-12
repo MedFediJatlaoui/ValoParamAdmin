@@ -16,11 +16,12 @@ spec:
       containers:
         - name: valoparamui
           image: fediijat/valoparamadminfront:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 4200
           env:
             - name: API_URL
-              value: "http://valoparamapi-service:8090"
+              value: "http://172.179.48.22:8090"
           volumeMounts:
             - name: frontend-uploads-volume
               mountPath: /app/uploads

@@ -16,5 +16,6 @@ spec:
       containers:
         - name: valoparamapi
           image: fediijat/valoparamadminbackend
+          imagePullPolicy: Always
           ports:
             - containerPort: 8090

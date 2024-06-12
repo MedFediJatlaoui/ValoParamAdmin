@@ -40,7 +40,7 @@ import { Configuration }                                     from '../configurat
 })
 export class ParamTableControllerService {
 
-    protected basePath = 'http://valoparamapi-service:8090';
+    protected basePath = 'http://172.179.48.22:8090';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
