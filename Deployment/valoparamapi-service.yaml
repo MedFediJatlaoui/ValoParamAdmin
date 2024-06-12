@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: valoparamadmin-service
+  name: valoparamapi-service
   namespace: dev
 spec:
   selector:
-    app: valoparamadmin
+    app: valoparamapi
   ports:
     - name: http
       protocol: TCP
