@@ -42,7 +42,7 @@ import { Configuration }                                     from '../configurat
 })
 export class RuleService {
 
-    protected basePath = 'http://localhost:8090';
+    protected basePath = 'http://valoparamapi-service:8090';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;

@@ -36,7 +36,7 @@ describe('UserService', () => {
 
     service.addUser(dto, file).subscribe(() => {});
 
-    const req = httpMock.expectOne('http://localhost:8090/api/users');
+    const req = httpMock.expectOne('http://valoparamapi-service:8090/api/users');
     expect(req.request.method).toBe('POST');
     expect(req.request.body instanceof FormData).toBeTruthy();
     expect(req.request.body.get('file')).toEqual(file);
@@ -52,7 +52,7 @@ describe('UserService', () => {
       (error) => expect(error.status).toBe(500)
     );
 
-    const req = httpMock.expectOne('http://localhost:8090/api/users');
+    const req = httpMock.expectOne('http://valoparamapi-service:8090/api/users');
     req.flush('Error', { status: 500, statusText: 'Server Error' });
   });
 
@@ -61,7 +61,7 @@ describe('UserService', () => {
 
     service.login(authRequest).subscribe(() => {});
 
-    const req = httpMock.expectOne('http://localhost:8090/api/auth/authenticate');
+    const req = httpMock.expectOne('http://valoparamapi-service:8090/api/auth/authenticate');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(authRequest);
     req.flush({});
@@ -75,14 +75,14 @@ describe('UserService', () => {
       (error) => expect(error.status).toBe(401)
     );
 
-    const req = httpMock.expectOne('http://localhost:8090/api/auth/authenticate');
+    const req = httpMock.expectOne('http://valoparamapi-service:8090/api/auth/authenticate');
     req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
   });
 
   it('should get all users', () => {
     service.getAllUsers().subscribe(() => {});
 
-    const req = httpMock.expectOne('http://localhost:8090/api/users');
+    const req = httpMock.expectOne('http://valoparamapi-service:8090/api/users');
     expect(req.request.method).toBe('GET');
     req.flush([]);
   });
@@ -127,7 +127,7 @@ describe('UserService', () => {
 
     service.updateUser(id, registerDto, file).subscribe(() => {});
 
-    const req = httpMock.expectOne(`http://localhost:8090/api/users/${id}`);
+    const req = httpMock.expectOne(`http://valoparamapi-service:8090/api/users/${id}`);
     expect(req.request.method).toBe('PUT');
     expect(req.request.body instanceof FormData).toBeTruthy();
     expect(req.request.body.get('file')).toEqual(file);
@@ -144,7 +144,7 @@ describe('UserService', () => {
       (error) => expect(error.status).toBe(500)
     );
 
-    const req = httpMock.expectOne(`http://localhost:8090/api/users/${id}`);
+    const req = httpMock.expectOne(`http://valoparamapi-service:8090/api/users/${id}`);
     req.flush('Error', { status: 500, statusText: 'Server Error' });
   });
 });
