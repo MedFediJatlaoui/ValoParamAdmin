@@ -1,6 +1,9 @@
 package com.talan.adminmodule.config;
 
 import com.talan.adminmodule.dto.*;
+import com.talan.adminmodule.entity.Role;
+import com.talan.adminmodule.entity.User;
+import com.talan.adminmodule.repository.UserRepository;
 import com.talan.adminmodule.service.RuleService;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
@@ -8,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -20,6 +24,14 @@ public class DatabaseInitializer {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final DataSource dataSource;
     private static final Logger log =  LoggerFactory.getLogger(DatabaseInitializer.class);
+
+    @Autowired
+
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+
+    private UserRepository userRepository;
 
     @Autowired
 
@@ -40,6 +52,21 @@ public class DatabaseInitializer {
         }
 
          allTablesWithColumns =retrieveAllTablesWithColumns();
+        User user = new User() ;
+
+        user.setEmail("jatlaouimedfedi@gmail.com");
+
+        user.setPassword(passwordEncoder.encode("123"));
+
+        user.setFirstname("fedi");
+
+        user.setLastname("jatt");
+
+        user.setRole(Role.ADMIN);
+
+        user.setPhone("111111");
+
+        this.userRepository.save(user);
     }
 
     public TablesWithColumns retrieveAllTablesWithColumns() {
