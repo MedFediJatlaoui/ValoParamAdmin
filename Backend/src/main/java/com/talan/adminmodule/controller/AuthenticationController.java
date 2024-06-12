@@ -35,7 +35,7 @@ public class AuthenticationController {
   public AuthenticationController(AuthenticationService authenticationService) {
     this.authenticationService = authenticationService;
   }
-/*  @Autowired
+  @Autowired
 
  private PasswordEncoder passwordEncoder;
 
@@ -54,7 +54,7 @@ public class AuthenticationController {
 
     User user = new User() ;
 
-    user.setEmail("jatlaouimedfedi@gmail.com.com");
+    user.setEmail("jatlaouimedfedi@gmail.com");
 
     user.setPassword(passwordEncoder.encode("123"));
 
@@ -66,7 +66,8 @@ public class AuthenticationController {
 
     user.setPhone("111111");
 
-    this.userRepository.save(user); return null ; }*/
+    this.userRepository.save(user); return null ; }
+/*
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(
           @RequestBody AuthenticationRequest request
@@ -86,6 +87,7 @@ public class AuthenticationController {
                       .build());
     }
   }
+*/
 
   @PostMapping("/refresh-token")
   public void refreshToken(
