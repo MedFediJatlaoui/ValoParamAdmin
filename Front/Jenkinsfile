@@ -75,5 +75,15 @@ pipeline {
                 }
             }
         }
+         stage('Deploy AKS') {
+                            steps {
+                                dir('Deployment') {
+                                    sh '''
+                                    kubectl apply -f valoparamui-deployment.yaml
+                                    kubectl apply -f valoparamui-service.yaml
+                                    '''
+                                }
+                         }
+                    }
     }
 }
