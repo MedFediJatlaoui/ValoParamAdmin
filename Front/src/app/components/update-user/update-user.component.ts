@@ -14,7 +14,7 @@ export class UpdateUserComponent implements OnInit {
     updateUserForm!: FormGroup;
     user: any;
     file!: File;
-    companies: string[] = ['Talan , Paris', 'Talan , Marseille', 'Talan , Lyon'];
+    companies: string[] = ['Talan , Paris', 'Talan , Marseille', 'Talan , Lyon','Talan , Tunisie'];
     roles: string[] = ['ADMIN', 'BUSINESSEXPERT', 'CONSULTANT'];
 
     constructor(

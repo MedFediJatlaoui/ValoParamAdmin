@@ -585,7 +585,7 @@ params.addValue("pkValue",convertedValue);
         return responseDto;
     }
     @Transactional
-    @Scheduled(cron = "0 07 11 * * *")
+    @Scheduled(cron = "0 00 15 * * *")
     public void executeUpdate() {
         List<String> uniqueTableNames = new ArrayList<>();
         for (UpdateRequest updateRequest : updateRequests) {
@@ -605,7 +605,7 @@ params.addValue("pkValue",convertedValue);
         }
     }
     @Transactional
-    @Scheduled(cron = "0 07 11 * * *")
+    @Scheduled(cron = "0 00 15 * * *")
     public void executeDeletion () {
         List<String> uniqueTableNames = new ArrayList<>();
         for (DeleteRequest deleteRequest : deleteRequests) {

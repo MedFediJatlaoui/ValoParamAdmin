@@ -8,7 +8,7 @@ import {ParamAudit} from "../../model/param-audit";
   providedIn: 'root'
 })
 export class TableService {
-  baseUrl = 'http://172.179.48.22:8090/api/tables';
+  baseUrl = 'http://localhost:8090/api/tables';
   constructor(private http : HttpClient) {
   }
 dataDeleteInstance:any;

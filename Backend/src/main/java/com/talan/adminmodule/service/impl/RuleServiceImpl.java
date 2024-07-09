@@ -286,7 +286,7 @@ public class RuleServiceImpl implements RuleService {
         return ruleUsageRepository.count();
     }
 
-    @Scheduled(fixedDelay = 9000)
+    @Scheduled(cron = "0 07 11 * * *")
     public void processQueuedUpdates() {
         while (!updateQueue.isEmpty()) {
             UpdateRuleRequest request = updateQueue.poll();
@@ -298,7 +298,7 @@ public class RuleServiceImpl implements RuleService {
     }
 
 
-    @Scheduled(fixedDelay = 9000)
+    @Scheduled(cron = "0 07 11 * * *")
     public void processQueuedDeletes() {
         while (!deleteQueue.isEmpty()) {
             DeleteRuleRequest request = deleteQueue.poll();

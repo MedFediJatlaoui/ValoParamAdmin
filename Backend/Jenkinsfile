@@ -71,15 +71,5 @@ pipeline {
                 }
             }
         }
-         stage('Deploy AKS') {
-                    steps {
-                        dir('Deployment') {
-                            sh '''
-                            kubectl apply -f valoparamapi-deployment.yaml --validate=false
-                            kubectl apply -f valoparamapi-service.yaml --validate=false
-                            '''
-                        }
-                 }
-            }
     }
 }
