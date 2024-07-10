@@ -185,8 +185,6 @@ void testFkOptions()
         columns.clear();
         data = paramTableService.getDataFromTable(tableName,tableDataRequest);
         assertTrue(data.getData().get(0).containsKey("last_update"));
-
-
     }
     @Test
     void testGetDataFromTable2(){
