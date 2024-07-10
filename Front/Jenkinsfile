@@ -28,7 +28,8 @@ pipeline {
         stage('Sonarqube Report') {
             steps {
                 dir('Front') {
- npm avec                }
+                sh 'npm run sonar'
+                         }
             }
         }
         stage('Package Artifact') {
