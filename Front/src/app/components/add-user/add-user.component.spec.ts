@@ -161,6 +161,7 @@ describe('AddUserComponent', () => {
     component.formSave.controls['company'].setValue('Example Company');
     component.formSave.controls['role'].setValue(UserDto.RoleEnum.Admin);
     component.formSave.controls['password'].setValue('password');
+    component.formSave.controls['password2'].setValue('password');
 
     component.file = file;
     component.addUser();

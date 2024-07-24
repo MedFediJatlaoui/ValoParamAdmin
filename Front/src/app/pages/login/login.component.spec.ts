@@ -5,7 +5,7 @@ import { UserService } from '../../services/user/user.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { UserControllerService } from "../../../open-api";
+import { UserControllerService, AuthenticationResponse } from "../../../open-api";
 import { of, throwError } from 'rxjs';
 
 describe('LoginComponent', () => {
@@ -47,19 +47,30 @@ describe('LoginComponent', () => {
 
   it('should handle login successfully', () => {
     const loginData = { email: 'test@example.com', password: 'password' };
-    userService.login.and.returnValue(of({ /* mock response data for successful login */ }));
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlF1aW5jeSBMYXJzb24iLCJpYXQiOjE1MTYyMzkwMjJ9.WcPGXClpKD7Bc1C0CCDA1060E2GGlTfamrd8-W0ghBE';
+
+    spyOn(localStorage, 'setItem');
+    spyOn(localStorage, 'getItem').and.returnValue(token);
+
+    const mockResponse: AuthenticationResponse = { access_token: token };
+
+    userService.login.and.returnValue(of(mockResponse));
 
     component.formLogin.setValue(loginData);
     component.handleLogin();
 
     expect(userService.login).toHaveBeenCalledWith(loginData);
-    expect(userService.setToken).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalled();
+    expect(userService.setToken).toHaveBeenCalledWith( Object({ access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlF1aW5jeSBMYXJzb24iLCJpYXQiOjE1MTYyMzkwMjJ9.WcPGXClpKD7Bc1C0CCDA1060E2GGlTfamrd8-W0ghBE' }) );
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
     expect(messageService.add).not.toHaveBeenCalled();
+
+    const userDetails = component.getUserDetails();
+    expect(userDetails.email).toBe('1234567890');
   });
 
   it('should handle login error', () => {
     const loginData = { email: 'test@example.com', password: 'password' };
+
     userService.login.and.returnValue(throwError('error'));
 
     component.formLogin.setValue(loginData);

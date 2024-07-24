@@ -23,5 +23,6 @@ public class Category{
 
     @OneToMany(mappedBy = "category")
     private List<Rule> rules;
-
+    @Column(name="active")
+    private Boolean active ;
 }

@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {PageRuleDto, RuleDto, RuleService} from "../../../open-api";
+import {CategoryService, PageRuleDto, RuleDto, RuleService} from "../../../open-api";
 import {DialogService} from "primeng/dynamicdialog";
 import {DisableRuleComponent} from "../disable-rule/disable-rule.component";
 import {UpdateRuleComponent} from "../update-rule/update-rule.component";
 import {RuleHistoryComponent} from "../rule-history/rule-history.component";
 import {UseRuleComponent} from "../use-rule/use-rule.component";
 import {UserService} from "../../services/user/user.service";
+import {CategoryComponent} from "../category/category.component";
 
 interface PageEvent {
   first: number;
@@ -110,6 +111,13 @@ return this.userService.getTokenRole()
 
   }
 
+  opencategories(){
+    const ref = this.dialogService.open(CategoryComponent, {
+      header: 'Valorisation rules categories',
+      width: '400px',
+      contentStyle: {"background-color": "var(--color-white)","color": "var(--color-dark)"},
+  });
+  }
   useRule(rule: RuleDto) {
     this.selectedRule = rule;
     const headerText = rule.status == 'Enabled' ? 'Use Rule' : 'Rule';

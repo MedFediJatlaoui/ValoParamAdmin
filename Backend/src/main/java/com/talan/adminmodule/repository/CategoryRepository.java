@@ -4,6 +4,7 @@ import com.talan.adminmodule.entity.Category;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +23,9 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("SELECT COUNT(r) " +
             "FROM Category c " +
             "JOIN c.rules r")
-    long findTotalRuleCount();}
+    long findTotalRuleCount();
+
+    @Query("SELECT COUNT(r) FROM Rule r WHERE r.category.id = :categoryId AND r.status != 'Enabled'")
+    long countRulesByCategoryAndStatusNotEnabled(@Param("categoryId") Integer categoryId);
+
+}

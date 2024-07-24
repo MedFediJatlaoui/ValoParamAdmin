@@ -1,126 +1,98 @@
-
 <div class="p-3" style="position: relative; display: flex; justify-content: space-between;">
   <div class="button-container">
-     <button pButton type="button" icon="pi pi-history" class=" p-button p-button-outlined" (click)="openparamhistory(table.name)"> &nbsp;History</button>
-
+    <button pButton type="button" icon="pi pi-history" class="p-button p-button-outlined uniform-button" (click)="openparamhistory(table.name)"> &nbsp;History</button>
   </div>
   <div class="button-container" style="flex: 1; display: flex; justify-content: center;">
-    <button pButton type="button" (click)="getDataTable(table)" class="p-button p-button-info btn-config" style="margin-right: 10px;">Refresh</button>
-    <button pButton type="button" (click)="addNewRow(table)" class="btn btn-success btn-config"><i class="pi pi-fw pi-plus" style="margin-right: 5px;"></i>New Parameter</button>
+    <button pButton type="button" (click)="getDataTable(table)" class="p-button p-button-info btn-config uniform-button" style="margin-right: 10px;">Refresh</button>
+    <button pButton type="button" (click)="addNewRow(table)" class="btn btn-success btn-config uniform-button"><i class="pi pi-fw pi-plus" style="margin-right: 5px;"></i>New Parameter</button>
   </div>
 </div>
 
 <div class="search-bar-container" style="display: flex; justify-content: center; margin-bottom: 10px; margin-top: 10px;">
-  <span class="p-input-icon-right" style="width: 400px;" >
-
-    <input type="text" [(ngModel)]="table.search"(ngModelChange)="getDataTable(table)" placeholder="Search..." pInputText [style]="{'width': '100%'}">
-    <i class="pi pi-search" style="color: grey;margin-right: 15px;" ></i>
+  <span class="p-input-icon-right" style="width: 400px;">
+    <input type="text" [(ngModel)]="table.search" (ngModelChange)="getDataTable(table)" placeholder="Search..." pInputText [style]="{'width': '100%'}">
+    <i class="pi pi-search" style="color: grey; margin-right: 15px;"></i>
   </span>
 </div>
+
 <table class="table">
   <thead>
   <tr>
     <th *ngFor="let column of table.selectedColumns">
-     <!-- <ng-container *ngIf="checkForeignKey(column, table)">
-        <p-dropdown [options]="table.selectedColumns" [(ngModel)]="testtest" [style]="{'width': '100%'}"></p-dropdown>
-      </ng-container>-->
-      {{ column }}<span *ngIf="column === table.pk.name" class="p-badge p-badge-info"> PK</span>
-      <span *ngIf="checkForeignKey(column,table)" class="p-badge p-badge-fk">FK</span>
-      <span *ngIf="checkNullable(column,table)" class="p-badge p-badge-danger">NOTNULL</span>
+      {{ column }}<span *ngIf="column === table.pk.name" class="p-badge p-badge-info">PK</span>
+      <span *ngIf="checkForeignKey(column, table)" class="p-badge p-badge-fk">FK</span>
+      <span *ngIf="checkNullable(column, table)" class="p-badge p-badge-danger">NOTNULL</span>
     </th>
     <th class="action-column">Actions</th>
   </tr>
   </thead>
   <tbody *ngIf="!(table.data && table.data.length)">
   <tr>
-    <td [attr.colspan]="table.selectedColumns.length">
-      Empty Configuration Table
-    </td>
+    <td [attr.colspan]="table.selectedColumns.length">Empty Configuration Table</td>
   </tr>
   </tbody>
   <tbody *ngIf="table.data && table.data.length">
   <div *ngIf="isLoading" class="spinner-overlay custom-spinner p-progress-spinner-circle">
-    <p-progressSpinner
-      styleClass="custom-spinner w-4rem h-4rem"
-      strokeWidth="8"
-      animationDuration=".5s"
-    ></p-progressSpinner>
+    <p-progressSpinner styleClass="custom-spinner w-4rem h-4rem" strokeWidth="8" animationDuration=".5s"></p-progressSpinner>
   </div>
-  <tr *ngFor="let row of table.data" >
-
-    <td *ngFor="let column of table.selectedColumns" [ngClass]="{ 'marked-for-deletion': isRowMarkedForDeletion(table,row),'marked-for-update': isRowMarkedForUpdate(table,row)  }"(dblclick)="dblclickeditmode(row)">
-      <ng-container *ngIf="!row.editMode; else editModeTemplate" >
-        {{ row[column] }}<span *ngIf="column === table.pk.name &&isRowMarkedForDeletion(table,row)" style="margin-left:10px" class="p-badge p-badge-danger">Scheduled for Deletion</span>
-        <span *ngIf="column === table.pk.name &&isRowMarkedForUpdate(table,row)" style="margin-left:10px" class="p-badge p-badge-warning">Scheduled for Update</span>
+  <tr *ngFor="let row of table.data">
+    <td *ngFor="let column of table.selectedColumns" [ngClass]="{'marked-for-deletion': isRowMarkedForDeletion(table, row), 'marked-for-update': isRowMarkedForUpdate(table, row)}" (dblclick)="dblclickeditmode(row)">
+      <ng-container *ngIf="!row.editMode; else editModeTemplate">
+        {{ row[column] }}
+        <span *ngIf="column === table.pk.name && isRowMarkedForDeletion(table, row)" style="margin-left: 10px;" class="p-badge p-badge-danger">Scheduled for Deletion</span>
+        <span *ngIf="column === table.pk.name && isRowMarkedForUpdate(table, row)" style="margin-left: 10px;" class="p-badge p-badge-warning">Scheduled for Update</span>
       </ng-container>
-      <ng-template #editModeTemplate [ngSwitch]="getColumnType(column,table) ">
-        <input *ngSwitchCase="'number'" [disabled]="column === table.pk.name"  type="number" [ngModel]="row[column]" (ngModelChange)="updateEditedValue(table, row, column, $event)"
-               pInputText>
-        <input  pInputText *ngSwitchCase="'string'" [disabled]="column === table.pk.name" type="text" [ngModel]="row[column]" (ngModelChange)="updateEditedValue(table, row, column, $event)" >
-        <p-calendar *ngSwitchCase="'date'" [ngModel]="row[column]" [disabled]="column === table.pk.name" (ngModelChange)="updateEditedValue(table, row, column, $event)" ></p-calendar>
-        <p-dropdown [options]="['true','false']" *ngSwitchCase="'boolean'" [disabled]="column === table.pk.name" [ngModel]="row[column]" (ngModelChange)="updateEditedValue(table, row, column, $event)"[style]="{'width': '80px'}"></p-dropdown>
-        <p-dropdown *ngSwitchCase="'fk'"
-                    [options]="getForeignKeyOptionspercolumn(column,row[column])"
-                    [ngModel]="row[column]"
-                    [showClear]="true"
-                    [filter]="true"
-                    (ngModelChange)="updateEditedValue(table, row, column, $event)"
-                    [style]="{'width': '80px'}">
-        </p-dropdown>
+      <ng-template #editModeTemplate [ngSwitch]="getColumnType(column, table)">
+        <input *ngSwitchCase="'number'" [disabled]="column === table.pk.name" type="number" [ngModel]="row[column]" (ngModelChange)="updateEditedValue(table, row, column, $event)" pInputText>
+        <input pInputText *ngSwitchCase="'string'" [disabled]="column === table.pk.name" type="text" [ngModel]="row[column]" (ngModelChange)="updateEditedValue(table, row, column, $event)">
+        <p-calendar *ngSwitchCase="'date'" [ngModel]="row[column]" [disabled]="column === table.pk.name" (ngModelChange)="updateEditedValue(table, row, column, $event)"></p-calendar>
+        <p-dropdown [options]="['true','false']" *ngSwitchCase="'boolean'" [disabled]="column === table.pk.name" [ngModel]="row[column]" (ngModelChange)="updateEditedValue(table, row, column, $event)" [style]="{'width': '80px'}"></p-dropdown>
+        <p-dropdown *ngSwitchCase="'fk'" [options]="getForeignKeyOptionspercolumn(column, row[column])" [ngModel]="row[column]" [showClear]="true" [filter]="true" (ngModelChange)="updateEditedValue(table, row, column, $event)" [style]="{'width': '80px'}"></p-dropdown>
       </ng-template>
     </td>
-    <td [ngClass]="{ 'marked-for-deletion': isRowMarkedForDeletion(table,row),'marked-for-update': isRowMarkedForUpdate(table,row)  }" >
-      <button  *ngIf="isRowMarkedForDeletion(table,row)" pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel" (click)="canceldeletion(table, row[table.pk.name])"></button>
-      <button  *ngIf="isRowMarkedForUpdate(table,row)" pButton type="button" label="Cancel Update" class="p-button-secondary p-button-cancel" (click)="cancelUpdateInstance(table, row[table.pk.name])"></button>
-      <ng-container  *ngIf="!row.editMode &&!isRowMarkedForDeletion(table,row)&&!isRowMarkedForUpdate(table,row)">
-        <button pButton type="button" icon="pi pi-pencil" style="margin-right:15px" class="p-button-warning" (click)="toggleEditMode(row)"></button>
-        <button pButton type="button" icon="pi pi-trash" (click)="checkReferences(row[table.pk.name],table)" class="p-button-danger"></button>
+    <td [ngClass]="{'marked-for-deletion': isRowMarkedForDeletion(table, row), 'marked-for-update': isRowMarkedForUpdate(table, row)}">
+      <button *ngIf="isRowMarkedForDeletion(table, row)" pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel uniform-button" (click)="canceldeletion(table, row[table.pk.name])"></button>
+      <button *ngIf="isRowMarkedForUpdate(table, row)" pButton type="button" label="Cancel Update" class="p-button-secondary p-button-cancel uniform-button" (click)="cancelUpdateInstance(table, row[table.pk.name])"></button>
+      <ng-container *ngIf="!row.editMode && !isRowMarkedForDeletion(table, row) && !isRowMarkedForUpdate(table, row)">
+        <button pButton type="button" icon="pi pi-pencil" style="margin-right: 15px;" class="p-button-warning uniform-button" (click)="toggleEditMode(row)"></button>
+        <button pButton type="button" icon="pi pi-trash" class="p-button-danger uniform-button" (click)="checkReferences(row[table.pk.name], table)"></button>
       </ng-container>
       <ng-container *ngIf="row.editMode">
-        <button pButton type="button" label="Edit"  class="p-button-warning" style="margin-right:10px" (click)="editValue (table, row)"></button>
-        <button pButton type="button" label="Cancel" class="p-button-secondary p-button-cancel" (click)="toggleEditMode(row)"></button>
+        <button pButton type="button" label="Edit" class="p-button-warning uniform-button" style="margin-right: 10px;" (click)="editValue(table, row)"></button>
+        <button pButton type="button" label="Cancel" class="p-button-secondary p-button-cancel uniform-button" (click)="toggleEditMode(row)"></button>
       </ng-container>
     </td>
   </tr>
+  </tbody>
   <tbody *ngIf="table.showNewRow">
   <tr *ngFor="let newrow of table.newRows">
     <ng-container *ngFor="let column of table.selectedColumns">
       <td>
-        <ng-container [ngSwitch]="getColumnType(column,table)" >
-          <input *ngSwitchCase="'number'" type="number"  [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column,table)" pInputText>
-          <input *ngSwitchCase="'float'" type="number" [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column,table)" pInputText step="0.01">
-          <p-calendar *ngSwitchCase="'date'" [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column,table)" ></p-calendar>
-          <input *ngSwitchCase="'string'" type="text"  [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column,table)" pInputText>
-          <p-dropdown [options]="['true','false']" *ngSwitchCase="'boolean'" [(ngModel)]="newrow[column]" [style]="{'width': '80px'}" [disabled]="iscolumndisabled(column,table)"></p-dropdown>
-
-          <p-dropdown *ngSwitchCase="'fk'"
-                      [options]="getForeignKeyOptionspercolumn(column,newrow[column])"
-                      [(ngModel)]="newrow[column]"
-
-                      [filter]="true"
-                      [style]="{'width': '80px'}">
-          </p-dropdown>
+        <ng-container [ngSwitch]="getColumnType(column, table)">
+          <input *ngSwitchCase="'number'" type="number" [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column, table)" pInputText>
+          <input *ngSwitchCase="'float'" type="number" [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column, table)" pInputText step="0.01">
+          <p-calendar *ngSwitchCase="'date'" [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column, table)"></p-calendar>
+          <input *ngSwitchCase="'string'" type="text" [(ngModel)]="newrow[column]" [disabled]="iscolumndisabled(column, table)" pInputText>
+          <p-dropdown [options]="['true','false']" *ngSwitchCase="'boolean'" [(ngModel)]="newrow[column]" [style]="{'width': '80px'}" [disabled]="iscolumndisabled(column, table)"></p-dropdown>
+          <p-dropdown *ngSwitchCase="'fk'" [options]="getForeignKeyOptionspercolumn(column, newrow[column])" [(ngModel)]="newrow[column]" [filter]="true" [style]="{'width': '80px'}"></p-dropdown>
         </ng-container>
       </td>
     </ng-container>
     <td>
-      <button pButton type="button" label="Add" (click)="addNewInstance(table,newrow)" class="p-button-success" style="margin-right:10px"></button>
-      <button pButton type="button" label="Cancel" class="p-button-secondary" (click)="toggleplusMode(table,newrow)"></button>
+      <button pButton type="button" label="Add" (click)="addNewInstance(table, newrow)" class="p-button-success uniform-button" style="margin-right: 10px;"></button>
+      <button pButton type="button" label="Cancel" class="p-button-secondary uniform-button" (click)="toggleplusMode(table, newrow)"></button>
     </td>
   </tr>
   </tbody>
-
 </table>
+
 <div class="p-paginator p-component" style="display: flex; justify-content: center;">
-  <button pButton type="button" (click)="changePage(table, table.currentPage -1)" [disabled]="table.currentPage === 1" class="p-paginator-prev">
+  <button pButton type="button" (click)="changePage(table, table.currentPage - 1)" [disabled]="table.currentPage === 1" class="p-paginator-prev uniform-button">
     <span class="pi pi-caret-left"></span>
   </button>
   <span class="p-paginator-pages">Page {{ table.currentPage }} of {{ table.totalPageCount }}</span>
-  <button pButton type="button" (click)="changePage(table, table.currentPage + 1)" [disabled]="table.currentPage === table.totalPageCount" class="p-paginator-next">
+  <button pButton type="button" (click)="changePage(table, table.currentPage + 1)" [disabled]="table.currentPage === table.totalPageCount" class="p-paginator-next uniform-button">
     <span class="pi pi-caret-right"></span>
   </button>
   <p-dropdown [options]="[5, 10, 20]" [(ngModel)]="table.limit" (onChange)="changeLimit($event.value)" [style]="{'width': '70px'}"></p-dropdown>
 </div>
-
-
-

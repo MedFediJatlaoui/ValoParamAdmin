@@ -1,0 +1,25 @@
+
+
+.button-wrapper {
+  display: flex; /* Enables flexbox layout */
+  justify-content: flex-end; /* Aligns buttons to the end */
+  gap: 10px; /* Adds space between buttons */
+}
+
+/* Optional: Add margin to create space between the buttons and the table cell border */
+.table-actions {
+  padding-right: 20px; /* Adjust as needed for space */
+}
+
+.category-name {
+  min-width: 200px; /* Adjust as needed */
+}
+
+.input-text-size {
+  width: 100%; /* Ensure input takes full width */
+  box-sizing: border-box; /* Include padding and border in the width */
+}
+.uniform-button {
+  height: 36px; /* Adjust the height as needed */
+  line-height: 36px; /* Match this to the height */
+}

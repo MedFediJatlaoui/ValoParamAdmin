@@ -63,9 +63,11 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {CalendarModule} from "primeng/calendar";
 import {UseRuleComponent} from "./components/use-rule/use-rule.component";
 import * as Sweetalert2 from "sweetalert2";
+import { CategoryComponent } from './components/category/category.component';
+import { DeletecategoryComponent } from './components/deletecategory/deletecategory.component';
 
 @NgModule({
-    declarations: [AppComponent, AllUsersComponent, AllRulesComponent, NewRuleComponent, LoginComponent, ParamTableComponent, AddUserComponent, UpdateUserComponent, LockUserComponent, DeleteUserComponent, ListParamTablesComponent, ParamHistoryComponent, DisableRuleComponent, UpdateRuleComponent, RuleHistoryComponent,UseRuleComponent, HeatmapComponent, DonutComponent, StackedColumnsComponent, dashbordComponent, NotfoundComponent, DeleteParamComponent, DeleteCascadeComponent],
+    declarations: [AppComponent, AllUsersComponent, AllRulesComponent, NewRuleComponent, LoginComponent, ParamTableComponent, AddUserComponent, UpdateUserComponent, LockUserComponent, DeleteUserComponent, ListParamTablesComponent, ParamHistoryComponent, DisableRuleComponent, UpdateRuleComponent, RuleHistoryComponent,UseRuleComponent, HeatmapComponent, DonutComponent, StackedColumnsComponent, dashbordComponent, NotfoundComponent, DeleteParamComponent, DeleteCascadeComponent, CategoryComponent, DeletecategoryComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

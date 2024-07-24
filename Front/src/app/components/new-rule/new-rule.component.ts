@@ -173,6 +173,7 @@ export class NewRuleComponent implements OnInit {
       const categoryExists = this.categories.some(cat => cat.name === this.newCategoryName);
       if (!categoryExists) {
         const newCategory: CategoryDto = {
+
           name: this.newCategoryName
         };
         this.categories.push(newCategory);

@@ -20,7 +20,6 @@ export class ParamTableComponent implements OnInit{
 
   @Input() table: TableInfo=new TableInfo();
 isLoading:boolean=false
-  testtest:string=""
   async ngOnInit() {
     await this.getForeignKeyOptions(this.table.name);
   }

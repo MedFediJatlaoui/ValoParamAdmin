@@ -1,7 +1,7 @@
 <div class="container add-rule pb-3">
   <div class="row">
     <div class="col-12">
-      <form [formGroup]="ruleForm" >
+      <form [formGroup]="ruleForm">
         <div class="row gx-5">
           <div class="col-xxl-8 mb-xxl-0">
             <div class="bg-secondary-soft px-4 mt-3 rounded">
@@ -65,14 +65,15 @@
                       <label class="form-label">Criteria percentage *</label>
                       <input type="number" class="form-control inp-control" formControlName="percentage" placeholder="" min="0" max="100">
                     </div>
-                    <div class=" mt-4">
-                      <button *ngIf="i === getAttributeControls().length - 1" (click)="addAttribute()" class="btn btn-success btn-config mt-2">
-                        <i class="pi pi-fw pi-plus"></i>Add
-                      </button>
-                      <button *ngIf="i !== getAttributeControls().length - 1" (click)="removeAttribute(i)" class="btn btn-danger btn-config mt-2">
+                    <div class="d-flex align-items-center mt-4">
+                      <button *ngIf="getAttributeControls().length > 1" (click)="removeAttribute(i)" class="btn btn-danger btn-config me-2">
                         <i class="pi pi-fw pi-times-circle"></i>Delete
                       </button>
+                      <button *ngIf="i === getAttributeControls().length - 1" (click)="addAttribute()" class="btn btn-success btn-config">
+                        <i class="pi pi-fw pi-plus"></i>Add
+                      </button>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -87,7 +88,7 @@
   </div>
 </div>
 <p-toast></p-toast>
-<p-dialog header="Add category" [(visible)]="categoryVisible" >
+<p-dialog header="Add category" [(visible)]="categoryVisible">
   <div class="cat-flex">
     <div class=" mt-2">
       <input type="text" placeholder="Category name" [(ngModel)]="newCategoryName">
@@ -99,7 +100,7 @@
     </div>
   </div>
 </p-dialog>
-<p-dialog header="Add attribute" [(visible)]="attributeVisible" >
+<p-dialog header="Add attribute" [(visible)]="attributeVisible">
   <div class="cat-flex">
     <div class=" mt-2">
       <input type="text" placeholder="Criteria name" [(ngModel)]="newAttributeName">
