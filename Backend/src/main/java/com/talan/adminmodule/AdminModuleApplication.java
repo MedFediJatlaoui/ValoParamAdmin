@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableScheduling
+
 public class AdminModuleApplication {
 
 	public static void main(String[] args) {

@@ -30,7 +30,7 @@ export class UserService {
     const formData: FormData = new FormData();
     formData.append('file', file);
     Object.keys(dto).forEach(key => formData.append(key, dto[key]));
-    return this.http.post<any>('http://172.179.48.22:8090/api/users', formData);
+    return this.http.post<any>('http://localhost:8090/api/users', formData);
   }
   getUserDetails() {
     const token = localStorage.getItem('accessToken');
@@ -93,7 +93,7 @@ export class UserService {
     // Set headers explicitly
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
-    return this.http.put<UserDto>(`http://172.179.48.22:8090/api/users/${id}`, formData, { headers: headers })
+    return this.http.put<UserDto>(`http://localhost:8090/api/users/${id}`, formData, { headers: headers })
       .pipe(
         catchError((error: any) => {
           console.error('An error occurred:', error);

@@ -12,7 +12,8 @@
                 <th scope="col" class="border-0 text-uppercase font-medium">Name</th>
                 <th scope="col" class="border-0 text-uppercase font-medium">Occupation</th>
                 <th scope="col" class="border-0 text-uppercase font-medium">Email</th>
-                <th scope="col" class="border-0 text-uppercase font-medium">Added</th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Phone</th>
+                <th scope="col" class="border-0 text-uppercase font-medium">Image</th>
                 <th scope="col" class="border-0 text-uppercase font-medium">Role</th>
                 <th scope="col" class="border-0 text-uppercase font-medium">Manage</th>
               </tr>
@@ -29,18 +30,14 @@
                 </td>
                 <td>
                   <span class="text-muted">{{ user.email }}</span><br>
+                </td>
+                <td>
                   <span class="text-muted">+216 - {{ user.phone }}</span>
                 </td>
                 <td>
                 <p-avatar size="large" shape="circle" class="user-avatar">
                   <img src="{{user.profileImagePath}}" alt="Avatar Image">
                 </p-avatar>
-                </td>
-
-
-                <td>
-                  <span class="text-muted">12/10</span><br>
-                  <span class="text-muted">09:23</span>
                 </td>
                 <td>
                   <p class="form-control category-select">

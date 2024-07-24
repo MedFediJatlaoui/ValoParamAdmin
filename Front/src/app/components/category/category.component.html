@@ -1,0 +1,36 @@
+<table>
+  <thead>
+  <tr>
+    <th class="category-name">Category name</th>
+    <th class="table-actions">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let cat of categories">
+    <td class="category-name">
+      <ng-container *ngIf="cat.editmode; else viewMode">
+        <input type="text" [(ngModel)]="cat.name" class="form-control input-text-size"/>
+      </ng-container>
+      <ng-template #viewMode>
+        {{ cat.name }}
+      </ng-template>
+    </td>
+    <td class="table-actions">
+      <div class="button-wrapper">
+        <ng-container *ngIf="cat.editmode; else buttons">
+          <button pButton type="button" label="Edit" style="margin-right:10px" class="p-button-warning uniform-button"
+                  (click)="cat.id !== undefined && updateCategory(cat.id, cat)">
+          </button>
+          <button pButton type="button" label="Cancel" class="p-button-secondary uniform-button" (click)="toggleEditMode(cat)"></button>
+        </ng-container>
+        <ng-template #buttons>
+          <button pButton type="button" icon="pi pi-pencil" style="margin-right:10px" class="p-button-warning uniform-button" (click)="toggleEditMode(cat)"></button>
+          <button pButton type="button" icon="pi pi-trash" style="margin-right:10px; color: white;" class="p-button-danger uniform-button" (click)="checkref(cat)"></button>
+        </ng-template>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+

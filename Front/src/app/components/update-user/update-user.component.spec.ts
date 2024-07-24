@@ -73,7 +73,7 @@ describe('UpdateUserComponent', () => {
       email: 'updated@example.com',
       phone: '987654321',
       company: 'Updated Company',
-      role: 'ADMIN'
+      role: 'ADMIN',
     };
     mockUserService.updateUser.and.returnValue(of(updatedUser));
     const formData = {
@@ -83,6 +83,7 @@ describe('UpdateUserComponent', () => {
       phone: updatedUser.phone,
       company: updatedUser.company,
       role: updatedUser.role,
+      password: null, // Set password to null explicitly
     };
 
     // Act
@@ -92,7 +93,15 @@ describe('UpdateUserComponent', () => {
     // Assert
     expect(mockUserService.updateUser).toHaveBeenCalledWith(
       component.user.id,
-      formData,
+      {
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        phone: formData.phone,
+        company: formData.company,
+        email: formData.email,
+        role: formData.role
+        // password should be omitted
+      },
       component.file
     );
     expect(mockRef.close).toHaveBeenCalled();
@@ -102,6 +111,7 @@ describe('UpdateUserComponent', () => {
       detail: 'User updated successfully'
     });
   });
+
 
 
   it('should handle error when updating user', () => {

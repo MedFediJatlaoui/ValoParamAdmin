@@ -27,7 +27,7 @@
                 <div class="col-md-6">
                   <label class="form-label">Company *</label>
                   <select class="form-control category-select" formControlName="company">
-                    <option *ngFor="let company of [ 'Talan , Paris', 'Talan , Marseille', 'Talan , Lyon','Talan , Tunisie']">{{company}} </option>
+                    <option *ngFor="let company of [ 'Talan , Paris', 'Talan , Marseille', 'Talan , Lyon','Talan , Tunisie','Talan , Suisse','Talan , Canada']">{{company}} </option>
                   </select>
                 </div>
                 <!-- Email -->
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Password *</label>
-                  <input type="password" class="form-control" placeholder=""  >
+                  <input type="password" class="form-control" formControlName="password2" placeholder=""  >
                 </div>
                 <!-- Phone number -->
                 <div class="col-md-6">
@@ -52,6 +52,7 @@
                   <input type="password" class="form-control" placeholder=""  formControlName="password">
                 </div>
               </div> <!-- Row END -->
+
             </div>
           </div>
           <!-- Upload profile -->

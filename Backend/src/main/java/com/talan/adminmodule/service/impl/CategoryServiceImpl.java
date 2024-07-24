@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -23,12 +24,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
-        return CategoryDto.fromEntity(categoryRepository.save(CategoryDto.toEntity(categoryDto)));
+       Category newcat =  CategoryDto.toEntity(categoryDto);
+       newcat.setActive(true);
+        return CategoryDto.fromEntity(newcat);
     }
 
     @Override
     public void delete(Integer id) {
-        this.categoryRepository.deleteById(id);
+
+      Category cat = categoryRepository.findById(id).orElse(null);
+        assert cat != null;
+        cat.setActive(false);
+        categoryRepository.save(cat);
     }
 
     @Override
@@ -42,9 +49,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> findAll() {
         return categoryRepository.findAll().stream()
+                .filter(category -> Boolean.TRUE.equals(category.getActive()))
                 .map(CategoryDto::fromEntity)
                 .toList();
     }
+
 
     @Override
     public List<CategoryDto> getTopUsedCategories() {
@@ -76,5 +85,28 @@ public class CategoryServiceImpl implements CategoryService {
         categories.add(otherCategoryDto);
 
         return categories;
+    }
+
+    @Override
+    public CategoryDto update(CategoryDto categoryDto) {
+        // Check if the category exists
+        Category existingCategory = categoryRepository.findById(categoryDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "No category with ID = " + categoryDto.getId() + " found in the database")
+                );
+
+        // Update the existing category's properties
+        existingCategory.setName(categoryDto.getName());
+        // Add any other properties that need to be updated
+
+        // Save the updated category
+        Category updatedCategory = categoryRepository.save(existingCategory);
+
+        // Return the updated CategoryDto
+        return CategoryDto.fromEntity(updatedCategory);
+    }
+    @Override
+    public long refCategory(Integer categoryId){
+        return categoryRepository.countRulesByCategoryAndStatusNotEnabled(categoryId);
     }
 }

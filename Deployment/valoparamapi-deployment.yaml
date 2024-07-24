@@ -1,5 +1,5 @@
-apiVersion: apps/v1 # Where in the API it resides
-kind: Deployment # The kind of workload we're creating
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: valoparamapi
   namespace: dev

@@ -21,6 +21,7 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Integer id) {
         CategoryDto categoryDto = categoryService.findById(id);
@@ -37,5 +38,21 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDto>> getTopUsedCategories() {
         List<CategoryDto> categories = categoryService.getTopUsedCategories();
         return ResponseEntity.ok(categories);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Integer id, @RequestBody CategoryDto categoryDto) {
+        // Ensure the ID from the path matches the ID in the request body if necessary
+        categoryDto.setId(id);
+        CategoryDto updatedCategoryDto = categoryService.update(categoryDto);
+        return ResponseEntity.ok(updatedCategoryDto);
+    }
+@GetMapping("/ref/{categoryId}")
+    public long refCategory(@PathVariable Integer categoryId){
+        return categoryService.refCategory(categoryId);
+}
+    @GetMapping("/delete/{categoryId}")
+    public void deleteCategory(@PathVariable Integer categoryId){
+         categoryService.delete(categoryId);
     }
 }
