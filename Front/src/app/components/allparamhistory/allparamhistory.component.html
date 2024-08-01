@@ -1,0 +1,109 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>Table</th>
+    <th>version</th>
+    <th>action</th>
+    <th>Row Id</th>
+    <th>Created by</th>
+    <th>Date created</th>
+    <th>Modified by</th>
+    <th>Date modified</th>
+    <th>Modification</th>
+
+  </tr>
+  </thead>
+  <tbody *ngIf="!(paramAuditHistory && paramAuditHistory.length)">
+  <tr>
+    <td [attr.colspan]="9">
+      Empty History
+    </td>
+  </tr>
+  </tbody>
+  <tbody>
+
+  <tr *ngFor="let param of paramAuditHistory" >
+    <td>{{param.tableName}}</td>
+    <td>{{ param.version}}</td>
+    <td (click)="logClass(param.action)">
+    <span [ngClass]="getClassForAction(param.action)">
+        {{ param.action }}
+    </span>
+    </td>
+    <td>{{param.rowId}}</td>
+    <td>{{ param.createdBy }}</td>
+    <td>{{ param.createdAt | date: 'dd/MM/yyyy' }}</td>
+    <td>{{ param.lastModifiedBy }}</td>
+    <td>{{ param.lastModifiedAt | date: 'dd/MM/yyyy'}}</td>
+    <td>{{ param.newRow}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<!--<p-table [value]="paramAuditHistory" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]" [responsiveLayout]="'scroll'" [globalFilterFields]="['tableName', 'action', 'createdBy', 'lastModifiedBy']">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="tableName">Table <p-sortIcon field="tableName"></p-sortIcon></th>
+      <th pSortableColumn="version">Version <p-sortIcon field="version"></p-sortIcon></th>
+      <th pSortableColumn="action">Action <p-sortIcon field="action"></p-sortIcon></th>
+      <th pSortableColumn="rowId">Row Id <p-sortIcon field="rowId"></p-sortIcon></th>
+      <th pSortableColumn="createdBy">Created by <p-sortIcon field="createdBy"></p-sortIcon></th>
+      <th pSortableColumn="createdAt">Date created <p-sortIcon field="createdAt"></p-sortIcon></th>
+      <th pSortableColumn="lastModifiedBy">Modified by <p-sortIcon field="lastModifiedBy"></p-sortIcon></th>
+      <th pSortableColumn="lastModifiedAt">Date modified <p-sortIcon field="lastModifiedAt"></p-sortIcon></th>
+      <th pSortableColumn="newRow">Modification <p-sortIcon field="newRow"></p-sortIcon></th>
+    </tr>
+    <tr>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'tableName', 'contains')" placeholder="Search by table">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'version', 'contains')" placeholder="Search by version">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'action', 'contains')" placeholder="Search by action">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'rowId', 'contains')" placeholder="Search by row id">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'createdBy', 'contains')" placeholder="Search by created by">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'createdAt', 'contains')" placeholder="Search by date created">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'lastModifiedBy', 'contains')" placeholder="Search by modified by">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'lastModifiedAt', 'contains')" placeholder="Search by date modified">
+      </th>
+      <th>
+        <input pInputText type="text" (input)="dt.filter($event.target.value, 'newRow', 'contains')" placeholder="Search by modification">
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-param>
+    <tr>
+      <td>{{param.tableName}}</td>
+      <td>{{param.version}}</td>
+      <td>
+        <span [ngClass]="getClassForAction(param.action)">
+          {{param.action}}
+        </span>
+      </td>
+      <td>{{param.rowId}}</td>
+      <td>{{param.createdBy}}</td>
+      <td>{{param.createdAt | date: 'dd/MM/yyyy'}}</td>
+      <td>{{param.lastModifiedBy}}</td>
+      <td>{{param.lastModifiedAt | date: 'dd/MM/yyyy'}}</td>
+      <td>{{param.newRow}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="9">Empty History</td>
+    </tr>
+  </ng-template>
+</p-table>-->
+

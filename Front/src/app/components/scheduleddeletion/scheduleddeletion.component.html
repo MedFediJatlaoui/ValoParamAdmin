@@ -1,0 +1,28 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th *ngFor="let column of columnNames">
+      {{ column | titlecase }}
+    </th>
+  </tr>
+  </thead>
+  <tbody *ngIf="!(scheduledDeletion && scheduledDeletion.length)">
+  <tr>
+    <td [attr.colspan]="columnNames.length">
+      No parameters scheduled for deletion
+    </td>
+  </tr>
+  </tbody>
+  <tbody *ngIf="scheduledDeletion && scheduledDeletion.length">
+  <tr *ngFor="let param of scheduledDeletion">
+    <td *ngFor="let column of columnNames">
+      <ng-container [ngSwitch]="column">
+        <ng-container *ngSwitchDefault>
+          {{ param[column] }}
+        </ng-container>
+      </ng-container>
+    </td>
+    <button  pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel uniform-button" (click)="canceldeletion(table, param[table.pk.name])"></button>
+  </tr>
+  </tbody>
+</table>

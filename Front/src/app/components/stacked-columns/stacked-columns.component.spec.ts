@@ -50,7 +50,7 @@ describe('StackedColumnsComponent', () => {
       legend: { show: false },
       chart: { type: 'treemap' },
       title: {
-        text: 'Parameter tables updates this year',
+        text: '',
         align: 'center'
       },
       colors: jasmine.any(Array),

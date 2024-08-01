@@ -22,7 +22,7 @@ export class AppMenuComponent implements OnInit {
     const role =this.getuserRole()
     this.model = [
       {
-        items: [ {label: 'dashbord', icon: 'pi pi-fw pi-home', routerLink: ['/']},
+        items: [ {label: 'dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/']},
           {label: 'Rules', icon: 'pi pi-fw pi-list', routerLink: ['/rules']} ,
           {label: 'Configuration table ', icon: 'pi pi-fw pi-table', routerLink: ['/configtable']}
         ]
@@ -32,7 +32,6 @@ export class AppMenuComponent implements OnInit {
      this.model[0].items.splice(3, 0,{label: 'Add user ', icon: 'pi pi-fw pi-user-plus', routerLink: ['/adduser']})
       this.model[0].items.push({label: 'Add rule', icon: 'pi pi-fw pi-plus', routerLink: ['/addrule']})
     }else if (role==="BUSINESSEXPERT"){
-      this.model[0].items.push({label: 'Add rule', icon: 'pi pi-fw pi-plus', routerLink: ['/addrule']})
-    }
+      this.model[0].items.push({label: 'Add rule', icon: 'pi pi-fw pi-plus', routerLink: ['/addrule']})}
   }
 }

@@ -1,0 +1,33 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th *ngFor="let column of columnNames">
+      {{ column | titlecase }}
+    </th>
+  </tr>
+  </thead>
+  <tbody *ngIf="!(scheduledUpdate && scheduledUpdate.length)">
+  <tr>
+    <td [attr.colspan]="columnNames.length">
+      No parameters scheduled for deletion
+    </td>
+  </tr>
+  </tbody>
+  <tbody *ngIf="scheduledUpdate && scheduledUpdate.length">
+  <tr *ngFor="let param of scheduledUpdate">
+    <td *ngFor="let column of columnNames">
+      <ng-container [ngSwitch]="column">
+        <ng-container *ngSwitchCase="'modifiedBy'">
+          {{ param.username }}
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          {{ param.instanceData[column] }}
+        </ng-container>
+      </ng-container>
+    </td>
+    <td>
+      <button pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel uniform-button" (click)="cancelupdate(table, param.instanceData[table.pk.name])"></button>
+    </td>
+  </tr>
+  </tbody>
+</table>

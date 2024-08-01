@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TableService } from './table.service';
 import {TableInfo} from "../../model/table-info";
 import {TablesWithColumns} from "../../model/tables-with-columns";
+import {ParamAudit} from "../../model/param-audit";
 
 describe('TableService', () => {
   let service: TableService;
@@ -236,5 +237,65 @@ it('should have foreignKey options for input dropdown',()=>{
     expect(req.request.responseType).toEqual('json');
     req.flush(expectedResponse);
   });
+
+  it('should fetch all param history', () => {
+    const expectedHistory: ParamAudit[] = [{
+      id: 0,
+      tableName: "",
+      action: "",
+      version: 0,
+      rowId: "",
+      oldRow: "",
+      newRow: "",
+      createdBy: "",
+      createdAt: "",
+      lastModifiedBy: "",
+      lastModifiedAt: ""
+    }];
+
+    service.allparamHistory().subscribe(history => {
+      expect(history).toEqual(expectedHistory);
+    });
+
+    const url = `${service.baseUrl}/all/history`;
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual('GET');
+    expect(req.request.responseType).toEqual('json');
+
+    req.flush(expectedHistory);
+  });
+
+  it('should get delete requests', () => {
+    const tableName = 'example_table';
+    const expectedResponse = [{ id: 1, request: 'delete' }];
+
+    service.getDeleteRequests(tableName).subscribe(response => {
+      expect(response).toEqual(expectedResponse);
+    });
+
+    const url = `${service.baseUrl}/deletereq/${tableName}`;
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual('GET');
+    expect(req.request.responseType).toEqual('json');
+
+    req.flush(expectedResponse);
+  });
+
+  it('should get update requests', () => {
+    const tableName = 'example_table';
+    const expectedResponse = [{ id: 1, request: 'update' }];
+
+    service.getupdaterequests(tableName).subscribe(response => {
+      expect(response).toEqual(expectedResponse);
+    });
+
+    const url = `${service.baseUrl}/updatereq/${tableName}`;
+    const req = httpTestingController.expectOne(url);
+    expect(req.request.method).toEqual('GET');
+    expect(req.request.responseType).toEqual('json');
+
+    req.flush(expectedResponse);
+  });
+
 });
 

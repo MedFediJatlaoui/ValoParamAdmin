@@ -65,9 +65,12 @@ import {UseRuleComponent} from "./components/use-rule/use-rule.component";
 import * as Sweetalert2 from "sweetalert2";
 import { CategoryComponent } from './components/category/category.component';
 import { DeletecategoryComponent } from './components/deletecategory/deletecategory.component';
+import { AllparamhistoryComponent } from './components/allparamhistory/allparamhistory.component';
+import { ScheduleddeletionComponent } from './components/scheduleddeletion/scheduleddeletion.component';
+import { ScheduledUpdateComponent } from './components/scheduled-update/scheduled-update.component';
 
 @NgModule({
-    declarations: [AppComponent, AllUsersComponent, AllRulesComponent, NewRuleComponent, LoginComponent, ParamTableComponent, AddUserComponent, UpdateUserComponent, LockUserComponent, DeleteUserComponent, ListParamTablesComponent, ParamHistoryComponent, DisableRuleComponent, UpdateRuleComponent, RuleHistoryComponent,UseRuleComponent, HeatmapComponent, DonutComponent, StackedColumnsComponent, dashbordComponent, NotfoundComponent, DeleteParamComponent, DeleteCascadeComponent, CategoryComponent, DeletecategoryComponent],
+    declarations: [AppComponent, AllUsersComponent, AllRulesComponent, NewRuleComponent, LoginComponent, ParamTableComponent, AddUserComponent, UpdateUserComponent, LockUserComponent, DeleteUserComponent, ListParamTablesComponent, ParamHistoryComponent, DisableRuleComponent, UpdateRuleComponent, RuleHistoryComponent,UseRuleComponent, HeatmapComponent, DonutComponent, StackedColumnsComponent, dashbordComponent, NotfoundComponent, DeleteParamComponent, DeleteCascadeComponent, CategoryComponent, DeletecategoryComponent, AllparamhistoryComponent, ScheduleddeletionComponent, ScheduledUpdateComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

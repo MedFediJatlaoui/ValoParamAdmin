@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.postgresql.jdbc.PgArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -691,5 +692,42 @@ params.addValue("pkValue",convertedValue);
     @Override
     public List<ParamAudit> paramHistory(String tableName){
         return paramAuditRepository.findByTableName(tableName);
+    }
+    @Override
+    public List<ParamAudit> allparamHistory() {
+        Sort sort = Sort.by(Sort.Order.desc("createdAt"), Sort.Order.desc("lastModifiedAt"));
+        return paramAuditRepository.findAll(sort);
+    }
+    @Override
+    public List<Map<String, Object>> getRowsForDeleteRequests(String tableName) {
+        List<DeleteRequest> tabledel = getDeleteRequestByTable(tableName);
+        ColumnInfo pkDetails = primaryKeyDetails(tableName);
+        String pk = pkDetails.getName();
+
+        if (tabledel == null || tabledel.isEmpty()) {
+            return List.of();
+        }
+
+        // Create a dynamic SQL query without using placeholders for column names
+        String sql = String.format("SELECT * FROM %s WHERE %s IN (:primaryKeys)", tableName, pk);
+
+        // Convert the primary keys to the correct data type
+        List<Object> primaryKeys = tabledel.stream()
+                .map(deleteRequest -> convertToDataType(deleteRequest.getPrimaryKeyValue(), pkDetails.getType()))
+                .collect(Collectors.toList());
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("primaryKeys", primaryKeys);
+
+        return jdbcTemplate.queryForList(sql, parameters);
+    }
+    @Override
+    public List<Map<String, String>> getRowsForUpdateRequests(String tableName) {
+        List<UpdateRequest> tabledel = getUpdateRequestByTable(tableName);
+
+        if (tabledel == null || tabledel.isEmpty()) {
+            return List.of();
+        }
+     return tabledel.stream().map(UpdateRequest::getInstanceData).toList();
     }
 }

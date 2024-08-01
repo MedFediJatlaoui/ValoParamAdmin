@@ -5,6 +5,9 @@ import {TableService} from "../../services/table/table.service";
 import {ParamTableComponent} from "../param-table/param-table.component";
 import {TablesWithColumns} from "../../model/tables-with-columns";
 import {ColumnInfo} from "../../model/column-info";
+import {ParamHistoryComponent} from "../param-history/param-history.component";
+import {DialogService} from "primeng/dynamicdialog";
+import {AllparamhistoryComponent} from "../allparamhistory/allparamhistory.component";
 
 @Component({
   selector: 'app-list-param-tables',
@@ -19,7 +22,7 @@ export class ListParamTablesComponent implements OnInit {
   totalPageCount: number = Math.ceil(this.numberTables / this.limit);
   offset: number = 0;
   dataLoaded: boolean = false;
-  constructor(private messageService: MessageService, private tableService: TableService, public paramTableComponent: ParamTableComponent) {
+  constructor(private messageService: MessageService, private tableService: TableService, public paramTableComponent: ParamTableComponent,private dialogService:DialogService) {
   }
 
   ngOnInit() {
@@ -137,9 +140,13 @@ export class ListParamTablesComponent implements OnInit {
       this.currentPage = pageNumber;
       this.offset = (this.currentPage - 1) * this.limit;
       this.retrieveData();
-
     }
-
   }
-
+  openallparamhistory() {
+    this.dialogService.open(AllparamhistoryComponent, {
+      header: `All tables History `,
+      width: '90%',
+      contentStyle: {"background-color": "var(--color-white)", "color": "var(--color-dark)"},
+    });
+  }
 }
