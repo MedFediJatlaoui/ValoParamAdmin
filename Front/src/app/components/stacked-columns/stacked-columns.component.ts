@@ -20,7 +20,7 @@ export class StackedColumnsComponent implements OnChanges, OnDestroy {
         type: 'treemap'
       },
       title: {
-        text: 'Parameter tables updates this year',
+        text: '',
         align: 'center'
       },
       colors: [

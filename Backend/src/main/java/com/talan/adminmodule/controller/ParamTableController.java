@@ -110,6 +110,18 @@ public ResponseEntity<ResponseDto> canceldeleterequest(@PathVariable String tabl
        public ResponseEntity<List<ParamAudit>> paramHistory(@PathVariable String tableName){
         return ResponseEntity.status(HttpStatus.OK).body(tableService.paramHistory(tableName));
     }
+    @GetMapping("/all/history")
+    public ResponseEntity<List<ParamAudit>> allparamHistory(){
+        return ResponseEntity.status(HttpStatus.OK).body(tableService.allparamHistory());
+    }
+    @GetMapping("/deletereq/{tableName}")
+    public ResponseEntity<List<Map<String, Object>>> alldeleterequests(@PathVariable String tableName){
+        return ResponseEntity.status(HttpStatus.OK).body(tableService.getRowsForDeleteRequests(tableName));
+    }
 
+    @GetMapping("/updatereq/{tableName}")
+    public ResponseEntity<List<UpdateRequest>> allupdaterequests(@PathVariable String tableName){
+        return ResponseEntity.status(HttpStatus.OK).body(tableService.getUpdateRequestByTable(tableName));
+    }
 
-        }
+}

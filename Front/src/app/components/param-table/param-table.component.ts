@@ -10,6 +10,9 @@ import {ParamHistoryComponent} from "../param-history/param-history.component";
 import {DeleteCascadeComponent} from "../delete-cascade/delete-cascade.component";
 import { map, Observable} from "rxjs";
 import {ColumnInfo} from "../../model/column-info";
+import {ScheduleddeletionComponent} from "../scheduleddeletion/scheduleddeletion.component";
+import {ScheduledUpdateComponent} from "../scheduled-update/scheduled-update.component";
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-param-table',
@@ -20,9 +23,11 @@ export class ParamTableComponent implements OnInit{
 
   @Input() table: TableInfo=new TableInfo();
 isLoading:boolean=false
+  userRole =""
   async ngOnInit() {
-    await this.getForeignKeyOptions(this.table.name);
-  }
+  await this.getForeignKeyOptions(this.table.name);
+this.userRole= this.getuserRole()
+}
 
   async getForeignKeyOptions(tableName: string) {
     try {
@@ -36,7 +41,6 @@ isLoading:boolean=false
   getInvalidColumns(row: any, table: any): string[] {
   const columnNames = table.columns.map((column:ColumnInfo) => column.name)
     const invalidColumns: string[] = [];
-  const wrongsize:String[]=[];
     columnNames.forEach((column: any) => {
       if (this.checkNullable(column, table)&&(!row[column] || row[column]==='' )&& column.name!==table.pk.name) {
         invalidColumns.push(column);
@@ -58,7 +62,7 @@ isLoading:boolean=false
   };
 
 
-  constructor(private messageService: MessageService, private tableService: TableService, private http: HttpClient,private dialogService:DialogService) {}
+  constructor(private messageService: MessageService, private tableService: TableService, private http: HttpClient,private dialogService:DialogService,private userService: UserService) {}
   getDataTable(table: TableInfo) {
     table.data=[];
     table.totalPageCount = Math.ceil(table.totalRows / table.limit);
@@ -88,7 +92,6 @@ isLoading:boolean=false
         }
       },
       error: (error) => {
-        console.error(error);
         this.messageService.add({ severity: 'error', summary: 'Update not Cancelled', detail: error});
 
       }
@@ -424,5 +427,27 @@ editValue (table: TableInfo, row: any) {
       }
     });
   }
-
+  openschdeuledeletion(tableName: string) {
+    this.dialogService.open(ScheduleddeletionComponent, {
+      header: `Scheduled for deletion ${tableName}`,
+      width: '90%',
+      contentStyle: {"background-color": "var(--color-white)", "color": "var(--color-dark)"},
+      data: {
+        table: this.table
+      }
+    });
+  }
+  openschdeuleupdate(tableName: string) {
+    this.dialogService.open(ScheduledUpdateComponent, {
+      header: `Scheduled for update ${tableName}`,
+      width: '90%',
+      contentStyle: {"background-color": "var(--color-white)", "color": "var(--color-dark)"},
+      data: {
+        table: this.table
+      }
+    });
+  }
+  getuserRole(): string {
+    return this.userService.getTokenRole();
+  }
 }

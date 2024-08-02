@@ -71,4 +71,10 @@ public interface ParamTableService {
 
     List<ParamAudit> paramHistory(String tableName);
 
+    List<ParamAudit> allparamHistory();
+
+     List<Map<String, Object>> getRowsForDeleteRequests(String tableName) ;
+     List<Map<String, String>> getRowsForUpdateRequests(String tableName) ;
+
+
 }

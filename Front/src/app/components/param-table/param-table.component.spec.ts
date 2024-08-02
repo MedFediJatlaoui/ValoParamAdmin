@@ -16,6 +16,8 @@ import {ParamHistoryComponent} from "../param-history/param-history.component";
 import any = jasmine.any;
 import {DeleteCascadeComponent} from "../delete-cascade/delete-cascade.component";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {ScheduleddeletionComponent} from "../scheduleddeletion/scheduleddeletion.component";
+import {ScheduledUpdateComponent} from "../scheduled-update/scheduled-update.component";
 
 
 describe('ParamTableComponent', () => {
@@ -342,14 +344,22 @@ await fixture.whenStable()
 
 
   });
-  it('should open param history', () => {
-    component.openparamhistory(component.table.name)
+  it('should open scheduled delete', () => {
+    component.openschdeuledeletion(component.table.name)
     fixture.detectChanges()
-    expect(dialogService.open).toHaveBeenCalledWith(ParamHistoryComponent,jasmine.objectContaining({
+    expect(dialogService.open).toHaveBeenCalledWith(ScheduleddeletionComponent,jasmine.objectContaining({
       width: '90%',
 
     }));
     });
+  it('should open scheduled update', () => {
+    component.openschdeuleupdate(component.table.name)
+    fixture.detectChanges()
+    expect(dialogService.open).toHaveBeenCalledWith(ScheduledUpdateComponent,jasmine.objectContaining({
+      width: '90%',
+
+    }));
+  });
     it('should toggle plus mode', () => {
       const newRow: { [anycolumn: string]: any } = {};
       const newRow1: { [anycolumn: string]: any } = {};

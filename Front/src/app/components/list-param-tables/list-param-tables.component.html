@@ -1,7 +1,8 @@
 <div class="container pb-3">
   <div>
     <h1 class="pt-3" style=" font-size: 20px !important;margin-top:20px">
-      Tables Per Page <p-dropdown [options]="[5, 10, 20]" [(ngModel)]="limit" (ngModelChange)="retrieveData()" [style]="{'width': '100px'}"></p-dropdown></h1>
+      Tables Per Page <p-dropdown [options]="[5, 10, 20]" [(ngModel)]="limit" (ngModelChange)="retrieveData()" [style]="{'width': '100px','margin-left':'20px'}"></p-dropdown>     <button pButton type="button" icon="pi pi-history" (click)="openallparamhistory()" class="p-button p-button-outlined uniform-button" style="margin-left: 70px" > &nbsp;All Tables History</button>
+    </h1>
   </div>
   <div class="row">
     <div class="col-12">

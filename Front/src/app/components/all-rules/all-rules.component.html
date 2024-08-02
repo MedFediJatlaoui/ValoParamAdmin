@@ -1,6 +1,7 @@
 <div class="recent-rules">
   <div class="d-flex justify-content-lg-end" style="margin-right: 30px">
-    <button class="btn save-conf mt-5" (click)="opencategories()">Rules categories</button>
+    <button class="btn save-conf mt-5" *ngIf="getuserRole()!=='CONSULTANT'" (click)="opencategories()">Rules categories</button>
+<!--    <button pButton type="button" icon="pi pi-eye" style="margin-left:10px" class=" btn save-eye mt-5" (click)="toggleEnabledFilter()"></button>-->
   </div>
   <table>
     <thead>
@@ -28,10 +29,8 @@
         <span class="p-badge p-badge-warning ng-star-inserted" *ngIf="rule.status=='Scheduled delete'"> {{rule.status }}</span>
         <button pButton type="button" icon="pi pi-calculator" style="margin-right:10px" class="p-button-secondary" (click)="useRule(rule)" *ngIf="rule.status=='Enabled'"></button>
       </td>
-
-      <td class="primary details" *ngIf="rule.status=='Enabled'" >
-
-        <button pButton type="button" icon="pi pi-pencil" style="margin-right:10px" class="p-button-warning" *ngIf="getuserRole()!=='CONSULTANT'"  (click)="updateRule(rule)"></button>
+      <td class="primary details" *ngIf="rule.status=='Enabled'">
+        <button pButton type="button" icon="pi pi-pencil" style="margin-right:10px" class="p-button-warning" *ngIf="getuserRole()!=='CONSULTANT'" (click)="updateRule(rule)"></button>
         <button pButton type="button" icon="pi pi-trash" style="margin-right:10px ; color: white;" class="p-button-danger" *ngIf="getuserRole()!=='CONSULTANT'" (click)="disableRule(rule)"></button>
         <button pButton type="button" icon="pi pi-history" class="p-button-info" (click)="openRuleHistory(rule)"></button>
       </td>
@@ -44,7 +43,8 @@
     </tr>
     </tbody>
   </table>
-  <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="200 " [rowsPerPageOptions]="[10, 20, 30, 40, 50, 60, 70,80,90,100]"></p-paginator>
+
+  <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="200" [rowsPerPageOptions]="[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]"></p-paginator>
 </div>
 
 <p-toast></p-toast>

@@ -9,6 +9,8 @@ import {ListParamTablesComponent} from "./list-param-tables.component";
 import {TableService} from "../../services/table/table.service";
 import {ParamTableComponent} from "../param-table/param-table.component";
 import {TableInfo} from "../../model/table-info";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {DialogModule} from "primeng/dialog";
 
 describe('ListParamTablesComponent', () => {
   let component: ListParamTablesComponent;
@@ -16,6 +18,8 @@ describe('ListParamTablesComponent', () => {
   let tableService: jasmine.SpyObj<TableService>;
   let messageService: jasmine.SpyObj<MessageService>;
   let paramTableComponent: jasmine.SpyObj<ParamTableComponent>;
+  let dialogService: jasmine.SpyObj<DialogService>;
+
   const table: TableInfo = new TableInfo();
   table.columns = [
     { name: 'Column1', type: 'string' ,isNullable:"NO",size:"200",isAutoIncrement:"NO"},
@@ -26,6 +30,7 @@ describe('ListParamTablesComponent', () => {
     tableService = jasmine.createSpyObj('TableService', ['retrieveAllTablesAndColumns']);
     messageService = jasmine.createSpyObj('MessageService', ['add']);
     paramTableComponent = jasmine.createSpyObj('ParamTableComponent', ['getDataTable']);
+    dialogService = jasmine.createSpyObj('DialogService', ['open']);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -33,12 +38,15 @@ describe('ListParamTablesComponent', () => {
         ToastModule,
         DropdownModule,
         MultiSelectModule,
+        DialogModule
       ],
       declarations: [ListParamTablesComponent],
       providers: [
         { provide: TableService, useValue: tableService },
         { provide: MessageService, useValue: messageService },
-        { provide: ParamTableComponent, useValue: paramTableComponent }
+        { provide: ParamTableComponent, useValue: paramTableComponent },
+        { provide: DialogService, useValue: dialogService }
+
       ]
     }).compileComponents();
 

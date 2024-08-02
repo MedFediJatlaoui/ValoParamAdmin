@@ -69,4 +69,15 @@ checkreferences(tableName: string, primaryKeyValue: string): Observable<any[]>{
   return this.http.get<any[]>(url);
 }
 
+  allparamHistory(): Observable<ParamAudit[]> {
+    const url = `${this.baseUrl}/all/history`;
+    return this.http.get<ParamAudit[]>(url);
+  }
+  getDeleteRequests(tableName: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/deletereq/${tableName}`);
+  }
+  getupdaterequests(tableName: string): Observable<any[]> {
+    const url = `${this.baseUrl}/updatereq/${tableName}`;
+    return this.http.get<any[]>(url);
+  }
 }

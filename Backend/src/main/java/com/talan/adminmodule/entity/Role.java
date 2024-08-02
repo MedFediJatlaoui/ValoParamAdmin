@@ -14,6 +14,7 @@ public enum Role {
 
   BUSINESSEXPERT,
   ADMIN,
+  PARAMSUPERVISOR,
   CONSULTANT;
 
 
