@@ -1,16 +1,17 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {MessageService} from 'primeng/api';
-import {of} from 'rxjs';
-import {TableModule} from 'primeng/table';
-import {ToastModule} from 'primeng/toast';
-import {DropdownModule} from 'primeng/dropdown';
-import {MultiSelectModule} from 'primeng/multiselect';
-import {ListParamTablesComponent} from "./list-param-tables.component";
-import {TableService} from "../../services/table/table.service";
-import {ParamTableComponent} from "../param-table/param-table.component";
-import {TableInfo} from "../../model/table-info";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
-import {DialogModule} from "primeng/dialog";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MessageService } from 'primeng/api';
+import { of } from 'rxjs';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ListParamTablesComponent } from './list-param-tables.component';
+import { TableService } from '../../services/table/table.service';
+import { ParamTableComponent } from '../param-table/param-table.component';
+import { TableInfo } from '../../model/table-info';
+import { DialogService } from 'primeng/dynamicdialog';
+import { DialogModule } from 'primeng/dialog';
+import {AllparamhistoryComponent} from "../allparamhistory/allparamhistory.component";
 
 describe('ListParamTablesComponent', () => {
   let component: ListParamTablesComponent;
@@ -22,10 +23,11 @@ describe('ListParamTablesComponent', () => {
 
   const table: TableInfo = new TableInfo();
   table.columns = [
-    { name: 'Column1', type: 'string' ,isNullable:"NO",size:"200",isAutoIncrement:"NO"},
-    { name: 'Column2', type: 'number',isNullable :"NO",size:"200",isAutoIncrement:"NO"},
-    { name: 'Column3', type: 'boolean',isNullable :"NO",size:"200",isAutoIncrement:"NO"},
+    { name: 'Column1', type: 'string', isNullable: "NO", size: "200", isAutoIncrement: "NO" },
+    { name: 'Column2', type: 'number', isNullable: "NO", size: "200", isAutoIncrement: "NO" },
+    { name: 'Column3', type: 'boolean', isNullable: "NO", size: "200", isAutoIncrement: "NO" },
   ];
+
   beforeEach(async () => {
     tableService = jasmine.createSpyObj('TableService', ['retrieveAllTablesAndColumns']);
     messageService = jasmine.createSpyObj('MessageService', ['add']);
@@ -46,7 +48,6 @@ describe('ListParamTablesComponent', () => {
         { provide: MessageService, useValue: messageService },
         { provide: ParamTableComponent, useValue: paramTableComponent },
         { provide: DialogService, useValue: dialogService }
-
       ]
     }).compileComponents();
 
@@ -57,10 +58,15 @@ describe('ListParamTablesComponent', () => {
       allTablesWithColumns: [{
         name: 'Table1',
         type: null,
-        pk: { name: "", type: "",isNullable:"",size:"200",isAutoIncrement:"NO" },
+        pk: { name: "", type: "", isNullable: "", size: "200", isAutoIncrement: "NO" },
         totalRows: 0,
-        columns: [{ name: "Column1", type: "string",isNullable:"NO",size:"200",isAutoIncrement:"NO" },{ name: "Column2", type: "int2",isNullable:"NO",size:"200",isAutoIncrement:"NO" },{ name: "Column3", type: "varchar",isNullable:"NO" ,size:"200",isAutoIncrement:"NO"}
-          ,{ name: "Column4", type: "bool",isNullable:"NO",size:"200",isAutoIncrement:"NO" } ,{ name: "Column5", type: "bool",isNullable:"NO" ,size:"200",isAutoIncrement:"NO"},{ name: "Column5", type: "timestamptz",isNullable:"NO" ,size:"200",isAutoIncrement:"NO"}],
+        columns: [
+          { name: "Column1", type: "string", isNullable: "NO", size: "200", isAutoIncrement: "NO" },
+          { name: "Column2", type: "int2", isNullable: "NO", size: "200", isAutoIncrement: "NO" },
+          { name: "Column3", type: "varchar", isNullable: "NO", size: "200", isAutoIncrement: "NO" },
+          { name: "Column4", type: "bool", isNullable: "NO", size: "200", isAutoIncrement: "NO" },
+          { name: "Column5", type: "timestamptz", isNullable: "NO", size: "200", isAutoIncrement: "NO" }
+        ],
         selectedColumns: [],
         sortByColumn: "",
         sortOrder: "",
@@ -77,8 +83,8 @@ describe('ListParamTablesComponent', () => {
         search: "",
         deleteRequests: [],
         updateRequests: [],
-        foreignKeys:[],
-        foreignKeyoptions:[]
+        foreignKeys: [],
+        foreignKeyoptions: []
       }]
     }));
 
@@ -90,7 +96,6 @@ describe('ListParamTablesComponent', () => {
   });
 
   it('should load data on init', async () => {
-
     component.ngOnInit();
     await fixture.whenStable();
     expect(tableService.retrieveAllTablesAndColumns).toHaveBeenCalled();
@@ -107,39 +112,45 @@ describe('ListParamTablesComponent', () => {
     await fixture.whenStable();
     expect(component.currentPage).toEqual(3);
     expect(tableService.retrieveAllTablesAndColumns).toHaveBeenCalled();
-
   });
 
   it('should change limit', () => {
     component.changeLimit(10);
     expect(component.limit).toEqual(10);
     expect(tableService.retrieveAllTablesAndColumns).toHaveBeenCalled();
-
   });
-  it('should have columns names', async () => {
-let columnNames : String[] ;
-    columnNames =  component.getColumnNames(table);
-    await fixture.whenStable();
+
+  it('should have column names', () => {
+    let columnNames: string[];
+    columnNames = component.getColumnNames(table);
     expect(columnNames.length).toBe(3);
     expect(columnNames[0]).toBe('Column1');
     expect(columnNames[1]).toBe('Column2');
     expect(columnNames[2]).toBe('Column3');
   });
-  it('should toggle Expansion', async () => {
-    table.isExpanded= false;
-    component.toggleRowExpansion(table)
-await fixture.whenStable();
-   expect(table.selectedColumns).toEqual(component.getColumnNames(table)) ;
-    expect(table.isExpanded).toBe(true)
 
+  it('should toggle expansion', async () => {
+    table.isExpanded = false;
+    component.toggleRowExpansion(table);
+    await fixture.whenStable();
+    expect(table.selectedColumns).toEqual(component.getColumnNames(table));
+    expect(table.isExpanded).toBe(true);
   });
-  it('should on change of any attribute fetch datatable', async() => {
 
-    component.dataLoaded=true
+  it('should fetch data table on model change if dataLoaded is true', async () => {
+    component.dataLoaded = true;
+    component.onModelChange(table);
+    await fixture.whenStable();
+    expect(paramTableComponent.getDataTable).toHaveBeenCalled();
+  });
 
-    component.onModelChange(table)
-    await fixture.whenStable()
-expect(paramTableComponent.getDataTable).toHaveBeenCalled();
+  it('should open all parameter history dialog', () => {
+    component.openallparamhistory();
+    expect(dialogService.open).toHaveBeenCalledWith(AllparamhistoryComponent, jasmine.objectContaining({
+      header: 'All tables History',
+      width: '90%',
+      contentStyle: { "background-color": "var(--color-white)", "color": "var(--color-dark)" }
+    }));
   });
 
 });

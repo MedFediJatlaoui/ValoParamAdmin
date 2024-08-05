@@ -28,7 +28,7 @@ import { Configuration } from '../configuration';
 })
 export class CategoryService {
 
-  protected basePath = 'http://172.179.48.22:8090';
+  protected basePath = 'http://localhost:8090';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
   public encoder: HttpParameterCodec;

@@ -144,7 +144,7 @@ export class ListParamTablesComponent implements OnInit {
   }
   openallparamhistory() {
     this.dialogService.open(AllparamhistoryComponent, {
-      header: `All tables History `,
+      header: `All tables History`,
       width: '90%',
       contentStyle: {"background-color": "var(--color-white)", "color": "var(--color-dark)"},
     });
