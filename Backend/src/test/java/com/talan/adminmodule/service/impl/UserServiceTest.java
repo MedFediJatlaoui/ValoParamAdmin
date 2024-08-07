@@ -178,7 +178,7 @@ class UserServiceTest {
             // Assert
             mockFiles.verify(() -> Files.copy(Mockito.<InputStream>any(), Mockito.<Path>any(), isA(CopyOption[].class)));
             mockFiles.verify(() -> Files.exists(Mockito.<Path>any(), isA(LinkOption[].class)));
-            assertEquals("assets\\demo\\images\\user-profiles", actualStoreProfileImageResult);
+            assertEquals("assets/demo/images/user-profiles", actualStoreProfileImageResult);
         }
     }
 
@@ -203,7 +203,7 @@ class UserServiceTest {
             mockFiles.verify(() -> Files.copy(Mockito.<InputStream>any(), Mockito.<Path>any(), isA(CopyOption[].class)));
             mockFiles.verify(() -> Files.createDirectories(Mockito.<Path>any(), isA(FileAttribute[].class)));
             mockFiles.verify(() -> Files.exists(Mockito.<Path>any(), isA(LinkOption[].class)));
-            assertEquals("assets\\demo\\images\\user-profiles", actualStoreProfileImageResult);
+            assertEquals("assets/demo/images/user-profiles", actualStoreProfileImageResult);
         }
     }
 
@@ -248,7 +248,7 @@ class UserServiceTest {
             // Assert
             mockFiles.verify(() -> Files.copy(Mockito.<InputStream>any(), Mockito.<Path>any(), isA(CopyOption[].class)));
             mockFiles.verify(() -> Files.exists(Mockito.<Path>any(), isA(LinkOption[].class)));
-            assertEquals("assets\\demo\\images\\user-profiles\\foo.txt", actualStoreProfileImageResult);
+            assertEquals("assets/demo/images/user-profiles/foo.txt", actualStoreProfileImageResult);
         }
     }
 
@@ -278,7 +278,7 @@ class UserServiceTest {
             verify(profileImage).getInputStream();
             verify(profileImage).getOriginalFilename();
             verify(profileImage).isEmpty();
-            assertEquals("assets\\demo\\images\\user-profiles\\foo.txt", actualStoreProfileImageResult);
+            assertEquals("assets/demo/images/user-profiles/foo.txt", actualStoreProfileImageResult);
         }
     }
 
@@ -308,7 +308,7 @@ class UserServiceTest {
             verify(profileImage).getInputStream();
             verify(profileImage).getOriginalFilename();
             verify(profileImage).isEmpty();
-            assertEquals("assets\\demo\\images\\user-profiles\\foo", actualStoreProfileImageResult);
+            assertEquals("assets/demo/images/user-profiles/foo", actualStoreProfileImageResult);
         }
     }
 
@@ -618,7 +618,7 @@ class UserServiceTest {
             assertEquals("Company", actualUpdateResult.getCompany());
             assertEquals("Doe", actualUpdateResult.getLastname());
             assertEquals("Jane", actualUpdateResult.getFirstname());
-            assertEquals("assets\\demo\\images\\user-profiles", actualUpdateResult.getProfileImagePath());
+            assertEquals("assets/demo/images/user-profiles", actualUpdateResult.getProfileImagePath());
             assertEquals("jane.doe@example.org", actualUpdateResult.getEmail());
             assertEquals(1L, actualUpdateResult.getId().longValue());
             assertEquals(Role.EXPERT, actualUpdateResult.getRole());
@@ -686,7 +686,7 @@ class UserServiceTest {
             assertEquals("Company", actualUpdateResult.getCompany());
             assertEquals("Doe", actualUpdateResult.getLastname());
             assertEquals("Jane", actualUpdateResult.getFirstname());
-            assertEquals("assets\\demo\\images\\user-profiles", actualUpdateResult.getProfileImagePath());
+            assertEquals("assets/demo/images/user-profiles", actualUpdateResult.getProfileImagePath());
             assertEquals("jane.doe@example.org", actualUpdateResult.getEmail());
             assertEquals(1L, actualUpdateResult.getId().longValue());
             assertEquals(Role.EXPERT, actualUpdateResult.getRole());

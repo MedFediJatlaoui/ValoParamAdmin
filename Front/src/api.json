@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8090",
+      "url": "http://172.179.48.22:8090",
       "description": "Local ENV"
     },
     {
