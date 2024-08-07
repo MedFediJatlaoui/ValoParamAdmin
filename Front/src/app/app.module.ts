@@ -68,6 +68,7 @@ import { DeletecategoryComponent } from './components/deletecategory/deletecateg
 import { AllparamhistoryComponent } from './components/allparamhistory/allparamhistory.component';
 import { ScheduleddeletionComponent } from './components/scheduleddeletion/scheduleddeletion.component';
 import { ScheduledUpdateComponent } from './components/scheduled-update/scheduled-update.component';
+import {InputSwitchModule} from "primeng/inputswitch";
 
 @NgModule({
     declarations: [AppComponent, AllUsersComponent, AllRulesComponent, NewRuleComponent, LoginComponent, ParamTableComponent, AddUserComponent, UpdateUserComponent, LockUserComponent, DeleteUserComponent, ListParamTablesComponent, ParamHistoryComponent, DisableRuleComponent, UpdateRuleComponent, RuleHistoryComponent,UseRuleComponent, HeatmapComponent, DonutComponent, StackedColumnsComponent, dashbordComponent, NotfoundComponent, DeleteParamComponent, DeleteCascadeComponent, CategoryComponent, DeletecategoryComponent, AllparamhistoryComponent, ScheduleddeletionComponent, ScheduledUpdateComponent],
@@ -112,6 +113,7 @@ import { ScheduledUpdateComponent } from './components/scheduled-update/schedule
         TableModule,
         ProgressSpinnerModule,
         CalendarModule,
+        InputSwitchModule,
     ],
 
     providers: [MessageService, DialogService, ParamTableComponent, HttpClient, PaginatorModule, TableModule, dashbordComponent, {

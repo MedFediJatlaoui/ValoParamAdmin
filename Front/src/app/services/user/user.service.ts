@@ -58,16 +58,19 @@ export class UserService {
     this.router.navigate(['/signIn']);
     return false;
   }
-  getTokenRole():string{
-
-      const accessToken = localStorage.getItem('accessToken');
-      if (accessToken) {
-        const tokenData = JSON.parse(atob(accessToken.split('.')[1]));
-     return tokenData.role
-      }else {
-        return "err"
-      }
+  getTokenRoleAndAuthorities(): { role: string, authorities: string[] } | string {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      const tokenData = JSON.parse(atob(accessToken.split('.')[1]));
+      return {
+        role: tokenData.role,
+        authorities: tokenData.authorities || []
+      };
+    } else {
+      return "err";
+    }
   }
+
   isValidAccessToken(token: string): boolean {
     try {
       const tokenData = JSON.parse(atob(token.split('.')[1]));

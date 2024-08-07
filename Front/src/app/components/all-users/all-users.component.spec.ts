@@ -42,8 +42,8 @@ describe('AllUsersComponent', () => {
 
     it('should fetch all active users', () => {
         const mockUserList: UserDto[] = [
-            {id: 1, firstname: 'John', lastname: 'Doe', email: 'john@example.com', active: true},
-            {id: 2, firstname: 'Jane', lastname: 'Doe', email: 'jane@example.com', active: true}
+            {id: 1, firstname: 'John', lastname: 'Doe', email: 'john@example.com', active: true,authorities:[]},
+            {id: 2, firstname: 'Jane', lastname: 'Doe', email: 'jane@example.com', active: true,authorities:[]}
         ];
 
         userService.getAllUsers.and.returnValue(of(mockUserList));
@@ -66,7 +66,8 @@ describe('AllUsersComponent', () => {
             phone: '123456789',
             company: 'Example Company',
             role: 'ADMIN',
-            error: ''
+            error: '',
+          authorities:[]
         };
         component.updateUser(mockUser);
         expect(component.selectedUser).toEqual(mockUser);

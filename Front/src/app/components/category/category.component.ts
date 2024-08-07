@@ -24,14 +24,14 @@ export class CategoryComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getAllCategories()
-      .subscribe(
-        categories => this.categories = categories,
-        error => {
-          console.error('Error loading categories', error);
-          this.categories = []; // Handle error by setting categories to empty array
-        }
-      );
+    this.categoryService.getAllCategories().subscribe(
+      (data: CategoryDto[]) => {
+        this.categories = data;
+      },
+      (error) => {
+        console.error('Error loading categories', error);
+      }
+    );
   }
 
   checkref(category: CategoryDto): void {

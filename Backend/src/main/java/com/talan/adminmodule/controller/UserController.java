@@ -44,9 +44,9 @@ public class UserController {
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable int id,@Nullable
-                                              @RequestParam("file") MultipartFile file,
-                                              @RequestParam("dto") String dtoJson) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable int id,
+                                              @RequestPart(value = "file", required = false) MultipartFile file,
+                                              @RequestPart(value = "dto") String dtoJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             RegisterDto dto = objectMapper.readValue(dtoJson, RegisterDto.class);
@@ -55,10 +55,9 @@ public class UserController {
             if (updatedUser != null) {
                 return ResponseEntity.ok(updatedUser);
             } else {
-                return ResponseEntity.notFound().build(); // User with given ID not found
+                return ResponseEntity.notFound().build();
             }
         } catch (IOException e) {
-            // Handle IO exception
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

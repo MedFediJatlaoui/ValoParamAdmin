@@ -79,7 +79,7 @@ class AuthenticationServiceTest {
     user.setPassword("iloveyou");
     user.setPhone("6625550144");
     user.setProfileImagePath("Profile Image Path");
-    user.setRole(Role.BUSINESSEXPERT);
+    user.setRole(Role.EXPERT);
     Optional<User> ofResult = Optional.of(user);
     when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
     when(jwtService.generateRefreshToken(Mockito.<UserDetails>any())).thenReturn("ABC123");

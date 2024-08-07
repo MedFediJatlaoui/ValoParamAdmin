@@ -48,8 +48,9 @@ class MockSafeHtmlPipe implements PipeTransform {
 }
 
 class MockUserService {
-  getTokenRole() {
-    return 'user';
+
+getTokenRoleAndAuthorities() {
+    return {role:'user',authorities:[]}
   }
 }
 

@@ -6,9 +6,9 @@
     <button pButton type="button" (click)="getDataTable(table)" class="p-button p-button-info btn-config uniform-button" style="margin-right: 10px;">Refresh</button>
     <button pButton type="button" (click)="addNewRow(table)" class="btn btn-success  uniform-button"><i class="pi pi-fw pi-plus" style="margin-right: 5px;"></i>New Parameter</button>
   </div>
-  <div class="button-container" style="display: flex; gap: 10px;">
-    <button pButton type="button"   *ngIf="userRole!=='CONSULTANT'" class="p-button p-button-warning uniform-button" (click)="openschdeuleupdate(table.name)" style="margin-left: 70px" > &nbsp;Scheduled for update</button>
-    <button pButton type="button" *ngIf="userRole!=='CONSULTANT'" (click)="openschdeuledeletion(table.name)"  class="p-button p-button-danger uniform-button"  > &nbsp;Scheduled for deletion</button>
+  <div class="button-container" *ngIf="userRole!=='CONSULTANT'" style="display: flex; gap: 10px;">
+    <button pButton type="button"    class="p-button p-button-warning uniform-button" (click)="openschdeuleupdate(table.name)" style="margin-left: 70px" > &nbsp;Scheduled for update</button>
+    <button pButton type="button" (click)="openschdeuledeletion(table.name)"  class="p-button p-button-danger uniform-button"  > &nbsp;Scheduled for deletion</button>
   </div>
 </div>
 
@@ -55,8 +55,8 @@
       </ng-template>
     </td>
     <td [ngClass]="{'marked-for-deletion': isRowMarkedForDeletion(table, row), 'marked-for-update': isRowMarkedForUpdate(table, row)}">
-      <button *ngIf="userRole!=='CONSULTANT' && isRowMarkedForDeletion(table, row)" pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel uniform-button" (click)="canceldeletion(table, row[table.pk.name])"></button>
-      <button *ngIf="userRole!=='CONSULTANT' && isRowMarkedForUpdate(table, row)" pButton type="button" label="Cancel Update" class="p-button-secondary p-button-cancel uniform-button" (click)="cancelUpdateInstance(table, row[table.pk.name])"></button>
+      <button *ngIf="(userRole ==='ADMIN' || (userRole==='EXPERT' && authority==='CAN_CANCEL')) && isRowMarkedForDeletion(table, row)" pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel uniform-button" (click)="canceldeletion(table, row[table.pk.name])"></button>
+      <button *ngIf="(userRole ==='ADMIN' || (userRole==='EXPERT' && authority==='CAN_CANCEL')) && isRowMarkedForUpdate(table, row)" pButton type="button" label="Cancel Update" class="p-button-secondary p-button-cancel uniform-button" (click)="cancelUpdateInstance(table, row[table.pk.name])"></button>
       <ng-container *ngIf="!row.editMode && !isRowMarkedForDeletion(table, row) && !isRowMarkedForUpdate(table, row) &&  userRole!=='CONSULTANT'">
         <button pButton type="button" icon="pi pi-pencil" style="margin-right: 15px;" class="p-button-warning uniform-button" (click)="toggleEditMode(row)"></button>
         <button pButton type="button" icon="pi pi-trash" class="p-button-danger uniform-button" (click)="checkReferences(row[table.pk.name], table)"></button>

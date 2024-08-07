@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class UserDto {
     private String phone;
     private String company ;
     private Role role;
+    private List<String> authorities;
     private String error;
 }
 

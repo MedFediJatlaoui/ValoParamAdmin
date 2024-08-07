@@ -32,8 +32,14 @@ export class AllRulesComponent implements OnInit {
   constructor(public ruleService: RuleService, public userService: UserService, public dialogService: DialogService) {}
 
   getuserRole(): string {
-    return this.userService.getTokenRole();
+    const tokenData = this.userService.getTokenRoleAndAuthorities();
+    if (typeof tokenData === 'string') {
+      return "err";
+    } else {
+      return tokenData.role;
+    }
   }
+
 
   onPageChange(event: PageEvent) {
     this.first = event.first / 10;

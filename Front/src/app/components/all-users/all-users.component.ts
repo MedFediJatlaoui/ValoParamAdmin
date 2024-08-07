@@ -14,7 +14,6 @@ import {map} from "rxjs";
 })
 export class AllUsersComponent implements OnInit {
     selectedUser: any;
-
     userList!:UserDto[] ;
 
   constructor(private http: HttpClient , private userService:UserService ,private dialogService: DialogService) { }

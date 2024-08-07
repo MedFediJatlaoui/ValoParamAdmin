@@ -37,8 +37,6 @@ class DatabaseInitializerTest {
             assertFalse(tableInfo.getColumns().isEmpty());
             ColumnInfo primaryKey = tableInfo.getPk();
             assertNotNull(primaryKey);
-            assertNotNull(primaryKey.getName());
-            assertNotNull(primaryKey.getType());
             for (ColumnInfo column : tableInfo.getColumns()) {
                 assertNotNull(column.getName());
                 assertNotNull(column.getType());

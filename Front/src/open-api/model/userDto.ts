@@ -23,12 +23,13 @@ export interface UserDto {
     company?: string;
     role?: UserDto.RoleEnum;
     error?: string;
+  authorities?:string[];
 
 }
 export namespace UserDto {
-    export type RoleEnum = 'BUSINESSEXPERT' | 'ADMIN' | 'CONSULTANT';
+    export type RoleEnum = 'EXPERT' | 'ADMIN' | 'CONSULTANT';
     export const RoleEnum = {
-        Businessexpert: 'BUSINESSEXPERT' as RoleEnum,
+        EXPERT: 'EXPERT' as RoleEnum,
         Admin: 'ADMIN' as RoleEnum,
         Consultant: 'CONSULTANT' as RoleEnum
     };

@@ -14,11 +14,13 @@ export class ScheduleddeletionComponent implements OnInit {
   table:TableInfo=new TableInfo();
   scheduledDeletion :any[]=[];
   columnNames:any[]=[]
+  role=""
+  authority=""
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig,private tableService:TableService,private messageService:MessageService) { }
-
-
   ngOnInit(): void {
     this.table = this.config.data.table;
+    this.role=this.config.data.role;
+      this.authority=this.config.data.authority;
     this.funcolumnNames();
     this.paramHistory();
   }

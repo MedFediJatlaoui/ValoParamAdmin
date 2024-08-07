@@ -22,7 +22,7 @@
         </ng-container>
       </ng-container>
     </td>
-    <button  pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel uniform-button" (click)="canceldeletion(table, param[table.pk.name])"></button>
+    <button  pButton type="button" label="Cancel Deletion" *ngIf="(role ==='ADMIN' || (role==='EXPERT' && authority==='CAN_CANCEL'))" class="p-button-secondary p-button-cancel uniform-button" (click)="canceldeletion(table, param[table.pk.name])"></button>
   </tr>
   </tbody>
 </table>

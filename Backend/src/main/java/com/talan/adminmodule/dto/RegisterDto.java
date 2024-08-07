@@ -19,5 +19,6 @@ public class RegisterDto {
     private String email;
     private String company ;
     private String phone;
-    private Role role;
+    private Role role ;
+    private String auth;
 }

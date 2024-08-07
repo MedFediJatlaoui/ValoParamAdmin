@@ -6,9 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -27,19 +30,35 @@ public class User implements UserDetails {
   private String email;
   private String password;
   private String profileImagePath;
-  private String company ;
+  private String company;
   private String phone;
   @Enumerated(EnumType.STRING)
   private Role role;
   @Builder.Default
-  private  Boolean active = true;
+  private Boolean active = true;
   @Builder.Default
-  private  Boolean nonExpired  = true;
+  private Boolean nonExpired = true;
 
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id"))
+  @Column(name = "authority")
+  private List<String> authorities = new ArrayList<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return role.getAuthorities();
+    List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
+    grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    if (role == Role.EXPERT) {
+      // Add CAN_CANCEL authority to EXPERT role if specified
+      if (authorities.contains("CAN_CANCEL")) {
+        grantedAuthorities.add(new SimpleGrantedAuthority("CAN_CANCEL"));
+      }
+    }
+    // Add any additional authorities defined for the user
+    for (String authority : authorities) {
+      grantedAuthorities.add(new SimpleGrantedAuthority(authority));
+    }
+    return grantedAuthorities;
   }
 
   @Override
@@ -69,6 +88,6 @@ public class User implements UserDetails {
 
   @Override
   public boolean isEnabled() {
-    return true ;
+    return true;
   }
 }

@@ -24,9 +24,10 @@ export class ParamTableComponent implements OnInit{
   @Input() table: TableInfo=new TableInfo();
 isLoading:boolean=false
   userRole =""
+  authority =""
   async ngOnInit() {
   await this.getForeignKeyOptions(this.table.name);
-this.userRole= this.getuserRole()
+     this.userRole =  this.getuserRole()
 }
 
   async getForeignKeyOptions(tableName: string) {
@@ -182,7 +183,6 @@ this.userRole= this.getuserRole()
     return rowMarkedForUpdate;
   }
   isRowMarkedForDeletion(table: TableInfo, row: any): boolean {
-
 
     const rowId = row[table.pk.name];
     let rowMarkedForDeletion = false;
@@ -433,7 +433,9 @@ editValue (table: TableInfo, row: any) {
       width: '90%',
       contentStyle: {"background-color": "var(--color-white)", "color": "var(--color-dark)"},
       data: {
-        table: this.table
+        table: this.table,
+        role:this.userRole,
+        authority:this.authority
       }
     });
   }
@@ -443,11 +445,39 @@ editValue (table: TableInfo, row: any) {
       width: '90%',
       contentStyle: {"background-color": "var(--color-white)", "color": "var(--color-dark)"},
       data: {
-        table: this.table
+        table: this.table,
+        role:this.userRole,
+        authority:this.authority
       }
     });
   }
   getuserRole(): string {
-    return this.userService.getTokenRole();
+    const tokenData = this.userService.getTokenRoleAndAuthorities();
+
+    // Handle the case where tokenData is a string
+    if (typeof tokenData === 'string') {
+      console.error("Error: Token data is a string instead of the expected object.");
+      return "err";
+    }
+
+    // At this point, we can assume tokenData is an object
+    if (tokenData.role === 'EXPERT') {
+      // Check if authorities is an array of objects and extract relevant information
+      if (Array.isArray(tokenData.authorities)) {
+        // Extract the authority names if they are objects
+        const authorityNames = tokenData.authorities.map((auth: any) => auth.name || auth.authority);
+
+        if (authorityNames.includes('CAN_CANCEL')) {
+          this.authority = 'CAN_CANCEL';
+        } else {
+          this.authority="";
+        }
+      }
+    }
+
+    return tokenData.role;
   }
+
+
+
 }

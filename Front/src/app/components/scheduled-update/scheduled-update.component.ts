@@ -14,11 +14,16 @@ export class ScheduledUpdateComponent implements OnInit {
   table: TableInfo = new TableInfo();
   scheduledUpdate: any[] = [];
   columnNames: any[] = [];
-
+  role="";
+  authority=""
   constructor(public ref: DynamicDialogRef, public config: DynamicDialogConfig, private tableService: TableService, private messageService: MessageService) {}
 
   ngOnInit(): void {
     this.table = this.config.data.table;
+    this.role=this.config.data.role;
+    this.authority=this.config.data.authority;
+    console.log(this.role)
+    console.log(this.authority)
     this.funcolumnNames();
     this.loadscheduledupdate();
   }

@@ -1067,7 +1067,7 @@
           "role": {
             "type": "string",
             "enum": [
-              "BUSINESSEXPERT",
+              "EXPERT",
               "ADMIN",
               "CONSULTANT"
             ]
@@ -1112,7 +1112,7 @@
           "role": {
             "type": "string",
             "enum": [
-              "BUSINESSEXPERT",
+              "EXPERT",
               "ADMIN",
               "CONSULTANT"
             ]

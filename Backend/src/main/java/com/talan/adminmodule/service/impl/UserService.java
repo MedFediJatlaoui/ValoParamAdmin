@@ -1,13 +1,13 @@
 package com.talan.adminmodule.service.impl;
-
-
 import com.talan.adminmodule.dto.RegisterDto;
 import com.talan.adminmodule.dto.UserDto;
+import com.talan.adminmodule.entity.Role;
 import com.talan.adminmodule.entity.User;
 import com.talan.adminmodule.repository.UserRepository;
 import io.micrometer.common.lang.Nullable;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,8 +19,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserService {
@@ -75,7 +76,11 @@ public class UserService {
                 .active(true)
                 .nonExpired(true)
                 .build();
-
+        List<String> authorities = new ArrayList<>();
+        if ("CAN_CANCEL".equals(dto.getAuth()) && user.getRole() == Role.EXPERT) {
+            authorities.add("CAN_CANCEL");
+        }
+        user.setAuthorities(authorities);
         userRepository.save(user);
         return mapUserToDto(user);
     }
@@ -91,6 +96,7 @@ public class UserService {
             return null;
         }
 
+        // Update user fields
         if (dto.getFirstname() != null) {
             user.setFirstname(dto.getFirstname());
         }
@@ -117,9 +123,22 @@ public class UserService {
             user.setProfileImagePath(profileImagePath);
         }
 
+        List<String> currentAuthorities = user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        currentAuthorities.removeIf(auth -> "CAN_CANCEL".equals(auth));
+
+        if ("CAN_CANCEL".equals(dto.getAuth())) {
+                currentAuthorities.add("CAN_CANCEL");
+       }
+        user.setAuthorities(currentAuthorities);
+
         userRepository.save(user);
         return mapUserToDto(user);
     }
+
+
+
 
     public User findbyemail(String email)
     {

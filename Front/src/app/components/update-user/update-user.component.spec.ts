@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '../../services/user/user.service';
 import {of, throwError} from 'rxjs';
 import { UserDto } from "../../../open-api";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 describe('UpdateUserComponent', () => {
   let component: UpdateUserComponent;
@@ -24,7 +25,7 @@ describe('UpdateUserComponent', () => {
     mockMessageService = jasmine.createSpyObj('MessageService', ['add']);
     TestBed.configureTestingModule({
       declarations: [UpdateUserComponent],
-      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule],
+      imports: [FormsModule, ReactiveFormsModule, HttpClientTestingModule,InputSwitchModule],
       providers: [
         FormBuilder,
         { provide: DynamicDialogRef, useValue: mockRef },
@@ -47,7 +48,7 @@ describe('UpdateUserComponent', () => {
       email: 'john@example.com',
       phone: '123456789',
       company: 'Example Company',
-      role: 'ADMIN'
+      role: 'ADMIN',
     };
     component.updateUserForm = formBuilder.group({
       firstname: [''],
@@ -74,6 +75,7 @@ describe('UpdateUserComponent', () => {
       phone: '987654321',
       company: 'Updated Company',
       role: 'ADMIN',
+      authorities:[]
     };
     mockUserService.updateUser.and.returnValue(of(updatedUser));
     const formData = {
@@ -83,7 +85,7 @@ describe('UpdateUserComponent', () => {
       phone: updatedUser.phone,
       company: updatedUser.company,
       role: updatedUser.role,
-      password: null, // Set password to null explicitly
+      password: "",
     };
 
     // Act
@@ -91,6 +93,7 @@ describe('UpdateUserComponent', () => {
     component.updateUser();
 
     // Assert
+
     expect(mockUserService.updateUser).toHaveBeenCalledWith(
       component.user.id,
       {
@@ -99,7 +102,8 @@ describe('UpdateUserComponent', () => {
         phone: formData.phone,
         company: formData.company,
         email: formData.email,
-        role: formData.role
+        role: formData.role,
+        auth:""
         // password should be omitted
       },
       component.file
@@ -136,6 +140,12 @@ describe('UpdateUserComponent', () => {
     };
     component.onFileChange(event);
     expect(component.file).toEqual(mockFile);
+  });
+  it('should disable canCancel control if role is not EXPERT', () => {
+    component.updateUserForm.get('canCancel')!.enable();
+    component.onRoleChange({ target: { value: 'USER' } });
+    expect(component.updateUserForm.get('canCancel')!.disabled).toBe(true);
+    expect(component.updateUserForm.get('canCancel')!.value).toBe(false);
   });
 
 });

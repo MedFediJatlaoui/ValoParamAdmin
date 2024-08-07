@@ -15,9 +15,15 @@ export class AppMenuComponent implements OnInit {
   ngOnInit() {
    this.modelRole()
   }
-  getuserRole():string{
-    return this.userService.getTokenRole()
+  getuserRole(): string {
+    const tokenData = this.userService.getTokenRoleAndAuthorities();
+    if (typeof tokenData === 'string') {
+      return "err";
+    } else {
+      return tokenData.role;
+    }
   }
+
   modelRole(){
     const role =this.getuserRole()
     this.model = [
@@ -31,7 +37,7 @@ export class AppMenuComponent implements OnInit {
       this.model[0].items.splice(2, 0, { label: 'Users', icon: 'pi pi-fw pi-user', routerLink: ['/users'] });
      this.model[0].items.splice(3, 0,{label: 'Add user ', icon: 'pi pi-fw pi-user-plus', routerLink: ['/adduser']})
       this.model[0].items.push({label: 'Add rule', icon: 'pi pi-fw pi-plus', routerLink: ['/addrule']})
-    }else if (role==="BUSINESSEXPERT"){
+    }else if (role==="EXPERT"){
       this.model[0].items.push({label: 'Add rule', icon: 'pi pi-fw pi-plus', routerLink: ['/addrule']})}
   }
 }

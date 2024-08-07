@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.anyBoolean;
 import static org.mockito.Mockito.atLeast;
@@ -87,7 +86,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
 
         // Act
         UserDto actualMapUserToDtoResult = userService.mapUserToDto(user);
@@ -100,7 +99,7 @@ class UserServiceTest {
         assertEquals("Profile Image Path", actualMapUserToDtoResult.getProfileImagePath());
         assertEquals("jane.doe@example.org", actualMapUserToDtoResult.getEmail());
         assertEquals(1L, actualMapUserToDtoResult.getId().longValue());
-        assertEquals(Role.BUSINESSEXPERT, actualMapUserToDtoResult.getRole());
+        assertEquals(Role.EXPERT, actualMapUserToDtoResult.getRole());
         assertTrue(actualMapUserToDtoResult.isActive());
         assertTrue(actualMapUserToDtoResult.isNonExpired());
     }
@@ -122,7 +121,7 @@ class UserServiceTest {
                 .nonExpired(true)
                 .phone("6625550144")
                 .profileImagePath("Profile Image Path")
-                .role(Role.BUSINESSEXPERT)
+                .role(Role.EXPERT)
                 .build();
         when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<UserDto>>any())).thenReturn(buildResult);
         UserService userService = new UserService(modelMapper, new BCryptPasswordEncoder(), mock(UserRepository.class));
@@ -138,7 +137,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
 
         // Act
         userService.mapUserToDto(user);
@@ -387,7 +386,7 @@ class UserServiceTest {
                     .nonExpired(true)
                     .phone("6625550144")
                     .profileImagePath("Profile Image Path")
-                    .role(Role.BUSINESSEXPERT)
+                    .role(Role.EXPERT)
                     .build();
             when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<UserDto>>any())).thenReturn(buildResult);
 
@@ -402,10 +401,11 @@ class UserServiceTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
+            user.setAuthorities(new ArrayList<>()); // Initialize the list
             when(userRepository.save(Mockito.<User>any())).thenReturn(user);
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT, "CAN_CANCEL");
 
             // Act
             userService.addUser(dto, new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
@@ -450,7 +450,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
 
         ArrayList<User> userList = new ArrayList<>();
         userList.add(user);
@@ -482,7 +482,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
 
         User user2 = new User();
         user2.setActive(false);
@@ -528,7 +528,7 @@ class UserServiceTest {
                 .nonExpired(true)
                 .phone("6625550144")
                 .profileImagePath("Profile Image Path")
-                .role(Role.BUSINESSEXPERT)
+                .role(Role.EXPERT)
                 .build();
         when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<UserDto>>any())).thenReturn(buildResult);
 
@@ -543,7 +543,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
 
         ArrayList<User> userList = new ArrayList<>();
         userList.add(user);
@@ -582,7 +582,7 @@ class UserServiceTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
             Optional<User> ofResult = Optional.of(user);
 
             User user2 = new User();
@@ -596,14 +596,14 @@ class UserServiceTest {
             user2.setPassword("iloveyou");
             user2.setPhone("6625550144");
             user2.setProfileImagePath("Profile Image Path");
-            user2.setRole(Role.BUSINESSEXPERT);
+            user2.setRole(Role.EXPERT);
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
             when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
             ModelMapper modelMapper = new ModelMapper();
             UserService userService = new UserService(modelMapper, new BCryptPasswordEncoder(), userRepository);
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT,"CAN_CANCEL");
 
             // Act
             UserDto actualUpdateResult = userService.update(1, dto,
@@ -621,7 +621,7 @@ class UserServiceTest {
             assertEquals("assets\\demo\\images\\user-profiles", actualUpdateResult.getProfileImagePath());
             assertEquals("jane.doe@example.org", actualUpdateResult.getEmail());
             assertEquals(1L, actualUpdateResult.getId().longValue());
-            assertEquals(Role.BUSINESSEXPERT, actualUpdateResult.getRole());
+            assertEquals(Role.EXPERT, actualUpdateResult.getRole());
             assertTrue(actualUpdateResult.isActive());
             assertTrue(actualUpdateResult.isNonExpired());
         }
@@ -649,7 +649,7 @@ class UserServiceTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
             Optional<User> ofResult = Optional.of(user);
 
             User user2 = new User();
@@ -663,14 +663,14 @@ class UserServiceTest {
             user2.setPassword("iloveyou");
             user2.setPhone("6625550144");
             user2.setProfileImagePath("Profile Image Path");
-            user2.setRole(Role.BUSINESSEXPERT);
+            user2.setRole(Role.EXPERT);
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
             when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
             ModelMapper modelMapper = new ModelMapper();
             UserService userService = new UserService(modelMapper, new BCryptPasswordEncoder(), userRepository);
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT,"CAN_CANCEL");
 
             // Act
             UserDto actualUpdateResult = userService.update(1, dto,
@@ -689,7 +689,7 @@ class UserServiceTest {
             assertEquals("assets\\demo\\images\\user-profiles", actualUpdateResult.getProfileImagePath());
             assertEquals("jane.doe@example.org", actualUpdateResult.getEmail());
             assertEquals(1L, actualUpdateResult.getId().longValue());
-            assertEquals(Role.BUSINESSEXPERT, actualUpdateResult.getRole());
+            assertEquals(Role.EXPERT, actualUpdateResult.getRole());
             assertTrue(actualUpdateResult.isActive());
             assertTrue(actualUpdateResult.isNonExpired());
         }
@@ -718,7 +718,7 @@ class UserServiceTest {
                     .nonExpired(true)
                     .phone("6625550144")
                     .profileImagePath("Profile Image Path")
-                    .role(Role.BUSINESSEXPERT)
+                    .role(Role.EXPERT)
                     .build();
             when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<UserDto>>any())).thenReturn(buildResult);
 
@@ -733,7 +733,7 @@ class UserServiceTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
             Optional<User> ofResult = Optional.of(user);
 
             User user2 = new User();
@@ -747,13 +747,13 @@ class UserServiceTest {
             user2.setPassword("iloveyou");
             user2.setPhone("6625550144");
             user2.setProfileImagePath("Profile Image Path");
-            user2.setRole(Role.BUSINESSEXPERT);
+            user2.setRole(Role.EXPERT);
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
             when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
             UserService userService = new UserService(modelMapper, new BCryptPasswordEncoder(), userRepository);
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT,"CAN_CANCEL");
 
             // Act
             userService.update(1, dto, new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
@@ -781,7 +781,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         Optional<User> ofResult = Optional.of(user);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.findByEmail(Mockito.<String>any())).thenReturn(ofResult);
@@ -812,7 +812,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         Optional<User> ofResult = Optional.of(user);
 
         User user2 = new User();
@@ -826,7 +826,7 @@ class UserServiceTest {
         user2.setPassword("iloveyou");
         user2.setPhone("6625550144");
         user2.setProfileImagePath("Profile Image Path");
-        user2.setRole(Role.BUSINESSEXPERT);
+        user2.setRole(Role.EXPERT);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
@@ -867,7 +867,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         Optional<User> ofResult = Optional.of(user);
 
         User user2 = new User();
@@ -881,7 +881,7 @@ class UserServiceTest {
         user2.setPassword("iloveyou");
         user2.setPhone("6625550144");
         user2.setProfileImagePath("Profile Image Path");
-        user2.setRole(Role.BUSINESSEXPERT);
+        user2.setRole(Role.EXPERT);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
@@ -901,7 +901,7 @@ class UserServiceTest {
         verify(user).setPassword("iloveyou");
         verify(user).setPhone("6625550144");
         verify(user).setProfileImagePath("Profile Image Path");
-        verify(user).setRole(Role.BUSINESSEXPERT);
+        verify(user).setRole(Role.EXPERT);
         verify(userRepository).findById(1);
         verify(userRepository).save(isA(User.class));
     }
@@ -937,7 +937,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         Optional<User> ofResult = Optional.of(user);
 
         User user2 = new User();
@@ -951,7 +951,7 @@ class UserServiceTest {
         user2.setPassword("iloveyou");
         user2.setPhone("6625550144");
         user2.setProfileImagePath("Profile Image Path");
-        user2.setRole(Role.BUSINESSEXPERT);
+        user2.setRole(Role.EXPERT);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
@@ -992,7 +992,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         Optional<User> ofResult = Optional.of(user);
 
         User user2 = new User();
@@ -1006,7 +1006,7 @@ class UserServiceTest {
         user2.setPassword("iloveyou");
         user2.setPhone("6625550144");
         user2.setProfileImagePath("Profile Image Path");
-        user2.setRole(Role.BUSINESSEXPERT);
+        user2.setRole(Role.EXPERT);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
@@ -1026,7 +1026,7 @@ class UserServiceTest {
         verify(user).setPassword("iloveyou");
         verify(user).setPhone("6625550144");
         verify(user).setProfileImagePath("Profile Image Path");
-        verify(user).setRole(Role.BUSINESSEXPERT);
+        verify(user).setRole(Role.EXPERT);
         verify(userRepository).findById(1);
         verify(userRepository).save(isA(User.class));
     }
@@ -1063,7 +1063,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         Optional<User> ofResult = Optional.of(user);
 
         User user2 = new User();
@@ -1077,7 +1077,7 @@ class UserServiceTest {
         user2.setPassword("iloveyou");
         user2.setPhone("6625550144");
         user2.setProfileImagePath("Profile Image Path");
-        user2.setRole(Role.BUSINESSEXPERT);
+        user2.setRole(Role.EXPERT);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
@@ -1118,7 +1118,7 @@ class UserServiceTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         Optional<User> ofResult = Optional.of(user);
 
         User user2 = new User();
@@ -1132,7 +1132,7 @@ class UserServiceTest {
         user2.setPassword("iloveyou");
         user2.setPhone("6625550144");
         user2.setProfileImagePath("Profile Image Path");
-        user2.setRole(Role.BUSINESSEXPERT);
+        user2.setRole(Role.EXPERT);
         UserRepository userRepository = mock(UserRepository.class);
         when(userRepository.save(Mockito.<User>any())).thenReturn(user2);
         when(userRepository.findById(Mockito.<Integer>any())).thenReturn(ofResult);
@@ -1152,7 +1152,7 @@ class UserServiceTest {
         verify(user).setPassword("iloveyou");
         verify(user).setPhone("6625550144");
         verify(user).setProfileImagePath("Profile Image Path");
-        verify(user).setRole(Role.BUSINESSEXPERT);
+        verify(user).setRole(Role.EXPERT);
         verify(userRepository).findById(1);
         verify(userRepository).save(isA(User.class));
     }

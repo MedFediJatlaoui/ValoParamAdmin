@@ -38,6 +38,7 @@ public class JwtService {
     Map<String, Object> extraClaims = new HashMap<>();
     if (userDetails instanceof User customUserDetails) {
       extraClaims.put("role", customUserDetails.getRole());
+      extraClaims.put("authorities",customUserDetails.getAuthorities());
       extraClaims.put("email", customUserDetails.getEmail());
     }
     return extraClaims;

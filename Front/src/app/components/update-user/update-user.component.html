@@ -17,6 +17,26 @@
                   <label class="form-label">Last Name *</label>
                   <input type="text" class="form-control" placeholder="" formControlName="lastname">
                 </div>
+                <!-- Email -->
+                <div class="col-md-8">
+                  <label for="inputEmail4" class="form-label">Email *</label>
+                  <input type="email" class="form-control" id="inputEmail4" formControlName="email">
+                </div>
+                <!-- Role -->
+                <div class="col-md-6">
+                  <label class="form-label">Role *</label>
+                  <select class="form-control category-select" formControlName="role" (change)="onRoleChange($event)">
+                    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                  </select>
+                </div>
+                <!-- Switch Button -->
+                <div class="col-md-6">
+                  <label class="form-label">Can cancel param actions</label>
+                  <div>
+                    <p-inputSwitch formControlName="canCancel" [disabled]="!isExpertSelected"></p-inputSwitch>
+                  </div>
+                </div>
+                <!-- Password -->
                 <div class="col-md-6">
                   <label class="form-label">Password</label>
                   <input type="password" class="form-control" placeholder="" formControlName="password">
@@ -31,18 +51,6 @@
                   <label class="form-label">Company *</label>
                   <select class="form-control category-select" formControlName="company">
                     <option *ngFor="let company of companies" [value]="company">{{company}}</option>
-                  </select>
-                </div>
-                <!-- Email -->
-                <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Email *</label>
-                  <input type="email" class="form-control" id="inputEmail4" formControlName="email">
-                </div>
-                <!-- Role -->
-                <div class="col-md-6">
-                  <label class="form-label">Role *</label>
-                  <select class="form-control category-select" formControlName="role">
-                    <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
                   </select>
                 </div>
               </div> <!-- Row END -->

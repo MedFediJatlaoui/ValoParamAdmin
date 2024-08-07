@@ -26,7 +26,7 @@
       </ng-container>
     </td>
     <td>
-      <button pButton type="button" label="Cancel Deletion" class="p-button-secondary p-button-cancel uniform-button" (click)="cancelupdate(table, param.instanceData[table.pk.name])"></button>
+      <button pButton type="button" *ngIf="(role ==='ADMIN' || (role==='EXPERT' && authority==='CAN_CANCEL'))" label="Cancel Update" class="p-button-secondary p-button-cancel uniform-button" (click)="cancelupdate(table, param.instanceData[table.pk.name])"></button>
     </td>
   </tr>
   </tbody>

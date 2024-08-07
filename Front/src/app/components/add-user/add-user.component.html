@@ -1,8 +1,7 @@
-<div class="container add-user pb-3 ">
+<div class="container add-user pb-3">
   <div class="row">
     <div class="col-12">
-
-      <form class="file-upload"  [formGroup]="formSave" enctype="multipart/form-data">
+      <form class="file-upload" [formGroup]="formSave" enctype="multipart/form-data">
         <div class="row gx-5">
           <!-- Contact detail -->
           <div class="col-xxl-8 mb-xxl-0">
@@ -16,43 +15,51 @@
                 <!-- Last name -->
                 <div class="col-md-6">
                   <label class="form-label">Last Name *</label>
-                  <input type="text" class="form-control" placeholder="" formControlName="lastname" >
+                  <input type="text" class="form-control" placeholder="" formControlName="lastname">
+                </div>
+                <div class="col-md-8">
+                  <label for="inputEmail4" class="form-label">Email *</label>
+                  <input type="email" class="form-control" id="inputEmail4" formControlName="email">
                 </div>
                 <!-- Phone number -->
                 <div class="col-md-6">
                   <label class="form-label">Phone number *</label>
-                  <input type="text" class="form-control" placeholder=""  formControlName="phone">
+                  <input type="text" class="form-control" placeholder="" formControlName="phone">
                 </div>
                 <!-- Mobile number -->
                 <div class="col-md-6">
                   <label class="form-label">Company *</label>
                   <select class="form-control category-select" formControlName="company">
-                    <option *ngFor="let company of [ 'Talan , Paris', 'Talan , Marseille', 'Talan , Lyon','Talan , Tunisie','Talan , Suisse','Talan , Canada']">{{company}} </option>
+                    <option *ngFor="let company of ['Talan , Paris', 'Talan , Marseille', 'Talan , Lyon', 'Talan , Tunisie', 'Talan , Suisse', 'Talan , Canada']">{{ company }}</option>
                   </select>
                 </div>
-                <!-- Email -->
-                <div class="col-md-6">
-                  <label for="inputEmail4" class="form-label">Email *</label>
-                  <input type="email" class="form-control" id="inputEmail4" formControlName="email">
-                </div>
-                <!-- ID number -->
+
+                <!-- Role -->
                 <div class="col-md-6">
                   <label class="form-label">Role *</label>
-                  <select class="form-control category-select" formControlName="role">
-                    <option *ngFor="let category of [ 'ADMIN', 'BUSINESSEXPERT', 'CONSULTANT']">{{ category }}</option>
+                  <select class="form-control category-select" formControlName="role" (change)="onRoleChange($event)">
+                    <option *ngFor="let category of ['ADMIN', 'EXPERT', 'CONSULTANT']">{{ category }}</option>
                   </select>
                 </div>
+                <!-- Toggle Button -->
+                <div class="col-md-6">
+                  <label class="form-label">Can cancel param actions</label>
+                  <div>
+                    <p-inputSwitch formControlName="canCancel" [disabled]="!isExpertSelected"></p-inputSwitch>
+                  </div>
+                </div>
+
+                <!-- Password -->
                 <div class="col-md-6">
                   <label class="form-label">Password *</label>
-                  <input type="password" class="form-control" formControlName="password2" placeholder=""  >
+                  <input type="password" class="form-control" formControlName="password2" placeholder="">
                 </div>
-                <!-- Phone number -->
+                <!-- Confirm password -->
                 <div class="col-md-6">
                   <label class="form-label">Confirm password *</label>
-                  <input type="password" class="form-control" placeholder=""  formControlName="password">
+                  <input type="password" class="form-control" placeholder="" formControlName="password">
                 </div>
               </div> <!-- Row END -->
-
             </div>
           </div>
           <!-- Upload profile -->
@@ -65,7 +72,7 @@
                     <i class="fas fa-fw fa-user position-absolute top-50 start-50 translate-middle text-secondary"></i>
                   </div>
                   <!-- Button -->
-                  <input type="file" id="customFile" name="file" hidden  (change)="onFileChange($event)">
+                  <input type="file" id="customFile" name="file" hidden (change)="onFileChange($event)">
                   <div class="upload-remove">
                     <label class="btn btn-success-soft btn-block" for="customFile">Upload</label>
                     <button type="button" class="btn btn-danger-soft">Remove</button>

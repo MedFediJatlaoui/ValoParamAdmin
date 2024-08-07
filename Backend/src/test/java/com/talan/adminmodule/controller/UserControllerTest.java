@@ -86,7 +86,7 @@ class UserControllerTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(Mockito.<User>any())).thenReturn(user);
             ModelMapper modelMapper = new ModelMapper();
@@ -94,7 +94,7 @@ class UserControllerTest {
 
             UserController userController = new UserController(userservice, new ModelMapper());
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT,"CAN_CANCEL");
 
             // Act
             ResponseEntity<UserDto> actualAddUserResult = userController.addUser(dto,
@@ -113,7 +113,7 @@ class UserControllerTest {
             assertEquals("jane.doe@example.org", body.getEmail());
             assertNull(body.getId());
             assertEquals(201, actualAddUserResult.getStatusCodeValue());
-            assertEquals(Role.BUSINESSEXPERT, body.getRole());
+            assertEquals(Role.EXPERT, body.getRole());
             assertTrue(body.isActive());
             assertTrue(body.isNonExpired());
             assertTrue(actualAddUserResult.hasBody());
@@ -144,7 +144,7 @@ class UserControllerTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(Mockito.<User>any())).thenReturn(user);
             ModelMapper modelMapper = new ModelMapper();
@@ -152,7 +152,7 @@ class UserControllerTest {
 
             UserController userController = new UserController(userservice, new ModelMapper());
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT,"CAN_CANCEL");
 
             // Act
             ResponseEntity<UserDto> actualAddUserResult = userController.addUser(dto,
@@ -172,7 +172,7 @@ class UserControllerTest {
             assertEquals("jane.doe@example.org", body.getEmail());
             assertNull(body.getId());
             assertEquals(201, actualAddUserResult.getStatusCodeValue());
-            assertEquals(Role.BUSINESSEXPERT, body.getRole());
+            assertEquals(Role.EXPERT, body.getRole());
             assertTrue(body.isActive());
             assertTrue(body.isNonExpired());
             assertTrue(actualAddUserResult.hasBody());
@@ -203,7 +203,7 @@ class UserControllerTest {
                     .nonExpired(true)
                     .phone("6625550144")
                     .profileImagePath("Profile Image Path")
-                    .role(Role.BUSINESSEXPERT)
+                    .role(Role.EXPERT)
                     .build();
             when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<UserDto>>any())).thenReturn(buildResult);
 
@@ -218,14 +218,14 @@ class UserControllerTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(Mockito.<User>any())).thenReturn(user);
             UserService userservice = new UserService(modelMapper, new BCryptPasswordEncoder(), userRepository);
 
             UserController userController = new UserController(userservice, new ModelMapper());
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT,"CAN_CANCEL");
 
             // Act
             ResponseEntity<UserDto> actualAddUserResult = userController.addUser(dto,
@@ -265,12 +265,12 @@ class UserControllerTest {
                     .nonExpired(true)
                     .phone("6625550144")
                     .profileImagePath("Profile Image Path")
-                    .role(Role.BUSINESSEXPERT)
+                    .role(Role.EXPERT)
                     .build();
             when(userservice.addUser(Mockito.<RegisterDto>any(), Mockito.<MultipartFile>any())).thenReturn(buildResult);
             UserController userController = new UserController(userservice, new ModelMapper());
             RegisterDto dto = new RegisterDto("Jane", "Doe", "iloveyou", "jane.doe@example.org", "Company", "6625550144",
-                    Role.BUSINESSEXPERT);
+                    Role.EXPERT,"CAN_CANCEL");
 
             // Act
             ResponseEntity<UserDto> actualAddUserResult = userController.addUser(dto,
@@ -307,7 +307,7 @@ class UserControllerTest {
             user.setPassword("iloveyou");
             user.setPhone("6625550144");
             user.setProfileImagePath("Profile Image Path");
-            user.setRole(Role.BUSINESSEXPERT);
+            user.setRole(Role.EXPERT);
             UserRepository userRepository = mock(UserRepository.class);
             when(userRepository.save(Mockito.<User>any())).thenReturn(user);
             ModelMapper modelMapper = new ModelMapper();
@@ -320,7 +320,7 @@ class UserControllerTest {
                     .lastname("Doe")
                     .password("iloveyou")
                     .phone("6625550144")
-                    .role(Role.BUSINESSEXPERT)
+                    .role(Role.EXPERT)
                     .build();
             userservice.addUser(dto, new MockMultipartFile("Name", new ByteArrayInputStream("AXAXAXAX".getBytes("UTF-8"))));
             UserController userController = new UserController(userservice, new ModelMapper());
@@ -331,7 +331,7 @@ class UserControllerTest {
                     .lastname("Doe")
                     .password("iloveyou")
                     .phone("6625550144")
-                    .role(Role.BUSINESSEXPERT)
+                    .role(Role.EXPERT)
                     .build();
 
             // Act
@@ -352,7 +352,7 @@ class UserControllerTest {
             assertEquals("jane.doe@example.org", body.getEmail());
             assertNull(body.getId());
             assertEquals(201, actualAddUserResult.getStatusCodeValue());
-            assertEquals(Role.BUSINESSEXPERT, body.getRole());
+            assertEquals(Role.EXPERT, body.getRole());
             assertTrue(body.isActive());
             assertTrue(body.isNonExpired());
             assertTrue(actualAddUserResult.hasBody());
@@ -609,7 +609,7 @@ class UserControllerTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         when(userService.findbyemail(Mockito.<String>any())).thenReturn(user);
         UserDto buildResult = UserDto.builder()
                 .active(true)
@@ -622,7 +622,7 @@ class UserControllerTest {
                 .nonExpired(true)
                 .phone("6625550144")
                 .profileImagePath("Profile Image Path")
-                .role(Role.BUSINESSEXPERT)
+                .role(Role.EXPERT)
                 .build();
         when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<UserDto>>any())).thenReturn(buildResult);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/users/{email}",
@@ -638,7 +638,7 @@ class UserControllerTest {
                         .string(
                                 "{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"email\":\"jane.doe@example.org\",\"active\":true,\"nonExpired"
                                         + "\":true,\"profileImagePath\":\"Profile Image Path\",\"phone\":\"6625550144\",\"company\":\"Company\",\"role\":"
-                                        + "\"BUSINESSEXPERT\",\"error\":\"An error occurred\"}"));
+                                        + "\"EXPERT\",\"error\":\"An error occurred\"}"));
     }
 
 
@@ -656,7 +656,7 @@ class UserControllerTest {
         user.setPassword("iloveyou");
         user.setPhone("6625550144");
         user.setProfileImagePath("Profile Image Path");
-        user.setRole(Role.BUSINESSEXPERT);
+        user.setRole(Role.EXPERT);
         when(userService.findbyemail(Mockito.<String>any())).thenReturn(user);
         UserDto buildResult = UserDto.builder()
                 .active(true)
@@ -669,7 +669,7 @@ class UserControllerTest {
                 .nonExpired(true)
                 .phone("6625550144")
                 .profileImagePath("Profile Image Path")
-                .role(Role.BUSINESSEXPERT)
+                .role(Role.EXPERT)
                 .build();
         when(modelMapper.map(Mockito.<Object>any(), Mockito.<Class<UserDto>>any())).thenReturn(buildResult);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/users/{email}", "Uri Variables",
@@ -685,7 +685,7 @@ class UserControllerTest {
                         .string(
                                 "{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"email\":\"jane.doe@example.org\",\"active\":true,\"nonExpired"
                                         + "\":true,\"profileImagePath\":\"Profile Image Path\",\"phone\":\"6625550144\",\"company\":\"Company\",\"role\":"
-                                        + "\"BUSINESSEXPERT\",\"error\":\"An error occurred\"}"));
+                                        + "\"EXPERT\",\"error\":\"An error occurred\"}"));
     }
 
 
@@ -720,7 +720,7 @@ class UserControllerTest {
                 .nonExpired(true)
                 .phone("6625550144")
                 .profileImagePath("Profile Image Path")
-                .role(Role.BUSINESSEXPERT)
+                .role(Role.EXPERT)
                 .build();
         userDtoList.add(buildResult);
         when(userService.getAll()).thenReturn(userDtoList);
@@ -736,7 +736,7 @@ class UserControllerTest {
                         .string(
                                 "[{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"email\":\"jane.doe@example.org\",\"active\":true,\"nonExpired"
                                         + "\":true,\"profileImagePath\":\"Profile Image Path\",\"phone\":\"6625550144\",\"company\":\"Company\",\"role\":"
-                                        + "\"BUSINESSEXPERT\",\"error\":\"An error occurred\"}]"));
+                                        + "\"EXPERT\",\"error\":\"An error occurred\"}]"));
     }
 
     @Test
@@ -754,7 +754,7 @@ class UserControllerTest {
                 .nonExpired(true)
                 .phone("6625550144")
                 .profileImagePath("Profile Image Path")
-                .role(Role.BUSINESSEXPERT)
+                .role(Role.EXPERT)
                 .build();
         userDtoList.add(buildResult);
         UserDto buildResult2 = UserDto.builder()
@@ -768,7 +768,7 @@ class UserControllerTest {
                 .nonExpired(true)
                 .phone("6625550144")
                 .profileImagePath("Profile Image Path")
-                .role(Role.BUSINESSEXPERT)
+                .role(Role.EXPERT)
                 .build();
         userDtoList.add(buildResult2);
         when(userService.getAll()).thenReturn(userDtoList);
@@ -784,9 +784,9 @@ class UserControllerTest {
                         .string(
                                 "[{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"email\":\"jane.doe@example.org\",\"active\":true,\"nonExpired"
                                         + "\":true,\"profileImagePath\":\"Profile Image Path\",\"phone\":\"6625550144\",\"company\":\"Company\",\"role\":"
-                                        + "\"BUSINESSEXPERT\",\"error\":\"An error occurred\"},{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"email\":"
+                                        + "\"EXPERT\",\"error\":\"An error occurred\"},{\"id\":1,\"firstname\":\"Jane\",\"lastname\":\"Doe\",\"email\":"
                                         + "\"jane.doe@example.org\",\"active\":true,\"nonExpired\":true,\"profileImagePath\":\"Profile Image Path\",\"phone"
-                                        + "\":\"6625550144\",\"company\":\"Company\",\"role\":\"BUSINESSEXPERT\",\"error\":\"An error occurred\"}]"));
+                                        + "\":\"6625550144\",\"company\":\"Company\",\"role\":\"EXPERT\",\"error\":\"An error occurred\"}]"));
     }
 
     @Test

@@ -16,6 +16,9 @@ export class AddUserComponent implements OnInit {
   errorFound: boolean = false;
   formSave!: FormGroup;
   file!: File;
+  isExpertSelected: boolean = false;
+  roles: string[] = ['ADMIN', 'EXPERT', 'CONSULTANT'];
+  companies: string[] = ['Talan , Paris', 'Talan , Marseille', 'Talan , Lyon', 'Talan , Tunisie', 'Talan , Suisse', 'Talan , Canada'];
 
   constructor(
     private userService: UserService,
@@ -32,6 +35,7 @@ export class AddUserComponent implements OnInit {
       phone: ['', Validators.required],
       company: ['Talan , Tunisie', Validators.required],
       role: [UserDto.RoleEnum.Admin, Validators.required],
+      canCancel: [{ value: false, disabled: !this.isExpertSelected }],
       password: ['', Validators.required],
       password2: ['', Validators.required],
     }, { validator: this.passwordMatchValidator });
@@ -53,20 +57,40 @@ export class AddUserComponent implements OnInit {
       return;
     }
 
-    const selectedRole = this.formSave.get('role')!.value;
-    this.userService.addUser({ ...this.formSave.value, role: selectedRole }, this.file).subscribe({
+    const formValue = this.formSave.value;
+    console.log('Form Value:', formValue);
+
+    let auth = "";
+    if (formValue.canCancel) {
+      auth = 'CAN_CANCEL';
+    }
+
+    this.userService.addUser({ ...formValue, auth: auth }, this.file).subscribe({
       next: data => {
         this.router.navigate(['users']);
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User successfully added' });
       },
       error: error => {
         this.errorFound = true;
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email exists !' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to add user' });
       }
     });
+  }
+
+  onRoleChange(event: any): void {
+    this.isExpertSelected = event.target.value === 'EXPERT';
+    const canCancelControl = this.formSave.get('canCancel');
+    if (this.isExpertSelected && canCancelControl) {
+      canCancelControl.enable();
+    } else if (canCancelControl) {
+      canCancelControl.disable();
+      canCancelControl.setValue(false);
+    }
   }
 
   onFileChange(event: any) {
     this.file = event.target.files[0];
   }
+
+  protected readonly console = console;
 }
