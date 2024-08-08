@@ -50,7 +50,7 @@ public class ParamTableController {
 public ResponseEntity<Boolean> checkunicity(@PathVariable  String primaryKeyValue ,@PathVariable String tableName){
     return ResponseEntity.status(HttpStatus.OK).body(tableService.checkunicity(primaryKeyValue,tableName));
 }
-
+//aaa
    @PutMapping("/update/{tableName}")
    @PreAuthorize("hasRole('ADMIN') or hasRole('EXPERT')")
    public ResponseEntity<ResponseDto> updateInstance(@RequestBody Map<String, String> instanceData,
